@@ -1,0 +1,23 @@
+{{ block title }}
+    Results
+{{ endblock }}
+
+{{ block content }}
+    <p>
+        {{ if not is_negation_game_successful }}
+            {{ if not is_reject }}
+                The negotiation game is over beacause the {{other_role}} has rejected your offer.
+            {{ else }}
+                The negotiation game is over beacause you have rejected the {{other_role}}'s offer.
+            {{ endif }}
+        {{ else }}
+            Congratulations! You have successfully negotiated with the {{other_role}}.<br>
+            Result:<br>
+            Offer Bribe: Yes<br>
+            Deal Fixed Sum: {{deal_fixed_sum}}$<br>
+            Deal Percentage: {{deal_percentage}}%<br>
+        {{ endif }}
+    </p>
+{{ endblock }}
+
+

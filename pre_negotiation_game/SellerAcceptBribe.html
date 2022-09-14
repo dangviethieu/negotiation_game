@@ -1,0 +1,15 @@
+{{ block title }}
+    Seller Accept Bribe from Buyer
+{{ endblock }}
+{{ block content }}
+    <p>
+        {{ if buyer_offer_bribe }}
+            A buyer has offered a bribe to you. Do you want to accept it?
+        {{ else }}
+            A buyer has not offered a bribe to you. Do you want to accept it?
+        {{ endif }}
+    </p>
+    <button name="seller_offer_bribe" value="True">Yes</button>
+    <button name="seller_offer_bribe" value="False">No</button>
+
+{{ endblock }}
