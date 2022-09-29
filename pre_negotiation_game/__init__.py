@@ -13,6 +13,9 @@ class C(BaseConstants):
     ENDOWMENT = cu(100)
     BUYER_ROLE = 'Buyer'
     SELLER_ROLE = 'Seller'
+    OFFER_NO_BRIBE = 0
+    OFFER_FIXED_SUM = 1
+    OFFER_PERCENTAGE = 2
 
 
 class Subsession(BaseSubsession):
@@ -20,7 +23,7 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-    buyer_offer_bribe = models.BooleanField(initial=False)
+    buyer_offer_bribe = models.IntegerField(initial=0)
     seller_offer_bribe = models.BooleanField(initial=False)
     deal_fixed_sum = models.IntegerField()
     deal_percentage = models.IntegerField()
@@ -28,7 +31,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    buyer_offer_bribe = models.BooleanField(initial=False)
+    buyer_offer_bribe = models.IntegerField(initial=0)
     seller_offer_bribe = models.BooleanField(initial=False)
     fixed_sum_proposed = models.IntegerField(initial=0, min=0, max=C.ENDOWMENT)
     fixed_sum_accepted = models.IntegerField(initial=0, min=0, max=C.ENDOWMENT)
@@ -67,6 +70,21 @@ class BuyerOfferBribe(Page):
     def is_displayed(player: Player):
         return player.role == C.BUYER_ROLE
 
+class BuyerOfferFixedSum(Page):
+    form_model = 'player'
+    form_fields = ['fixed_sum_proposed']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.BUYER_ROLE and player.buyer_offer_bribe == C.OFFER_FIXED_SUM
+
+class BuyerOfferPercentage(Page):
+    form_model = 'player'
+    form_fields = ['fixed_sum_proposed']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.BUYER_ROLE and player.buyer_offer_bribe == C.OFFER_PERCENTAGE
 
 class ResultsWaitSellerAcceptBribePage(WaitPage):
     pass
@@ -82,7 +100,7 @@ class SellerAcceptBribe(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {
-            'buyer_offer_bribe': player.group.buyer_offer_bribe,
+            'buyer_offer_bribe': player.group.get_player_by_role(C.BUYER_ROLE).buyer_offer_bribe
         }
 
 class ResultsWaitBuyerAcceptBribePage(WaitPage):
@@ -214,6 +232,8 @@ class Results(Page):
 page_sequence = [
     BuyerPreOffer,
     SellerPreOffer,
+    BuyerOfferFixedSum,
+    BuyerOfferPercentage,
     BuyerOfferBribe,
     ResultsWaitSellerAcceptBribePage,
     SellerAcceptBribe,
