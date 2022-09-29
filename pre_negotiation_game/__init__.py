@@ -11,8 +11,8 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
     ENDOWMENT = cu(100)
-    SELLER_ROLE = 'Seller'
     BUYER_ROLE = 'Buyer'
+    SELLER_ROLE = 'Seller'
 
 
 class Subsession(BaseSubsession):
@@ -39,6 +39,7 @@ class Player(BasePlayer):
 # PAGES
 def set_payoffs_after_offer_bribe(group: Group):
     p1, p2 = group.get_players()
+    print(p1.buyer_offer_bribe)
     group.buyer_offer_bribe = p1.buyer_offer_bribe
     group.seller_offer_bribe = p2.seller_offer_bribe
     if group.buyer_offer_bribe and group.seller_offer_bribe:
@@ -46,13 +47,25 @@ def set_payoffs_after_offer_bribe(group: Group):
     else:
         group.is_finished = True
 
+class BuyerPreOffer(Page):
+    form_model = 'player'
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.BUYER_ROLE
+
+class SellerPreOffer(Page):
+    form_model = 'player'
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.SELLER_ROLE
+
 class BuyerOfferBribe(Page):
     form_model = 'player'
     form_fields = ['buyer_offer_bribe']
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.id_in_group == 1
+        return player.role == C.BUYER_ROLE
 
 
 class ResultsWaitSellerAcceptBribePage(WaitPage):
@@ -64,7 +77,7 @@ class SellerAcceptBribe(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.id_in_group == 2
+        return player.role == C.SELLER_ROLE
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -198,4 +211,14 @@ class Results(Page):
         )
 
 
-page_sequence = [BuyerOfferBribe, ResultsWaitSellerAcceptBribePage, SellerAcceptBribe, ResultsWaitBuyerAcceptBribePage, OfferFixedSum, OfferPercentage, Results]
+page_sequence = [
+    BuyerPreOffer,
+    SellerPreOffer,
+    BuyerOfferBribe,
+    ResultsWaitSellerAcceptBribePage,
+    SellerAcceptBribe,
+    ResultsWaitBuyerAcceptBribePage,
+    OfferFixedSum,
+    OfferPercentage,
+    Results
+]
