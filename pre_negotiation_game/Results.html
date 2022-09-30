@@ -4,18 +4,48 @@
 
 {{ block content }}
     <p>
-        {{ if not is_negation_game_successful }}
-            {{ if not is_reject }}
-                The negotiation game is over beacause the {{other_role}} has rejected your offer.
+        {{ if buyer_offer_bribe == 0 }}
+            {{ if seller_offer_no_bribe == True }}
+                Now the price bargaining will start with the buyer making an offer in the first period
             {{ else }}
-                The negotiation game is over beacause you have rejected the {{other_role}}'s offer.
+                {{ if other_role == 'Seller' }}
+                    The game is over because the seller rejected your proposal and did not want to continue the negotiation with you.
+                {{ else }}
+                    You do not want to continue the negotiation. The game is over. 
+                {{ endif }}
+            {{ endif }}
+        {{ elif buyer_offer_bribe == 1 }}
+            {{ if seller_accepted_fixed_sum == True or buyer_accepted_fixed_sum == True }}
+                Now please start the price negotiation for the contract with the buyer making an offer in the first period
+            {{ elif seller_accepted_fixed_sum == False }}
+                {{ if other_role == 'Seller' }}
+                    The game is over because the seller rejected your proposal
+                {{ else }}
+                    You do not want to continue the negotiation. The game is over. 
+                {{ endif }}
+            {{ elif buyer_accepted_fixed_sum == False }}
+                {{ if other_role == 'Seller' }}
+                    You do not want to continue the negotiation. The game is over. 
+                {{ else }}
+                    The game is over because the buyer rejected your proposal
+                {{ endif }}
             {{ endif }}
         {{ else }}
-            Congratulations! You have successfully negotiated with the {{other_role}}.<br>
-            Result:<br>
-            Offer Bribe: Yes<br>
-            Deal Fixed Sum: {{deal_fixed_sum}}$<br>
-            Deal Percentage: {{deal_percentage}}%<br>
+            {{ if seller_accepted_percentage == True or buyer_accepted_percentage == True }}
+                Now please start the price negotiation for the contract with the buyer making an offer in the first period
+            {{ elif seller_accepted_percentage == False }}
+                {{ if other_role == 'Seller' }}
+                    The game is over because the seller rejected your proposal
+                {{ else }}
+                    You do not want to continue the negotiation. The game is over. 
+                {{ endif }}
+            {{ elif buyer_accepted_percentage == False }}
+                {{ if other_role == 'Seller' }}
+                    You do not want to continue the negotiation. The game is over. 
+                {{ else }}
+                    The game is over because the buyer rejected your proposal
+                {{ endif }}
+            {{ endif }}
         {{ endif }}
     </p>
 {{ endblock }}

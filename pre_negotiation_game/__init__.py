@@ -24,31 +24,64 @@ class Subsession(BaseSubsession):
 
 class Group(BaseGroup):
     buyer_offer_bribe = models.IntegerField(initial=0)
-    seller_offer_bribe = models.BooleanField(initial=False)
+    seller_offer_no_bribe = models.BooleanField(initial=False)
     deal_fixed_sum = models.IntegerField()
+    buyer_accepted_fixed_sum = models.BooleanField()
+    seller_accepted_fixed_sum = models.BooleanField()
     deal_percentage = models.IntegerField()
-    is_finished = models.BooleanField(initial=False)
-
+    buyer_accepted_percentage = models.BooleanField()
+    seller_accepted_percentage = models.BooleanField()
 
 class Player(BasePlayer):
-    buyer_offer_bribe = models.IntegerField(initial=0)
-    seller_offer_bribe = models.BooleanField(initial=False)
+    offer_bribe = models.IntegerField(initial=0)
     fixed_sum_proposed = models.IntegerField(initial=0, min=0, max=C.ENDOWMENT)
-    fixed_sum_accepted = models.IntegerField(initial=0, min=0, max=C.ENDOWMENT)
-    percentage_proposed = models.IntegerField(initial=0, min=0, max=100)
-    percentage_accepted = models.IntegerField(initial=0, min=0, max=100)
-    is_reject = models.BooleanField(initial=False)
+    accepted_neogtiation_from_fixed_sum = models.IntegerField(
+        widget=widgets.RadioSelect,
+        choices=[
+            [1, 'Accept'],
+            [2, 'Reject'],
+            [3, 'Reject with new']
+        ]
+    )
+    percentage_proposed = models.IntegerField(initial=2, choices=[2, 5, 10])
+    accepted_neogtiation_from_percentage = models.IntegerField(
+        widget=widgets.RadioSelect,
+        choices=[
+            [1, 'Accept'],
+            [2, 'Reject'],
+            [3, 'Reject with new']
+        ]
+    )
 
 # PAGES
 def set_payoffs_after_offer_bribe(group: Group):
     p1, p2 = group.get_players()
-    print(p1.buyer_offer_bribe)
-    group.buyer_offer_bribe = p1.buyer_offer_bribe
-    group.seller_offer_bribe = p2.seller_offer_bribe
-    if group.buyer_offer_bribe and group.seller_offer_bribe:
-        group.is_finished = False
-    else:
-        group.is_finished = True
+    group.buyer_offer_bribe = p1.offer_bribe
+    group.seller_offer_no_bribe = p2.offer_bribe
+    if p1.offer_bribe == C.OFFER_FIXED_SUM:
+        if p2.accepted_neogtiation_from_fixed_sum == 1:
+            group.deal_fixed_sum = p1.fixed_sum_proposed
+            group.seller_accepted_fixed_sum = True
+        elif p2.accepted_neogtiation_from_fixed_sum == 2:
+            group.seller_accepted_fixed_sum = False
+        elif p2.accepted_neogtiation_from_fixed_sum == 3:
+            if p1.accepted_neogtiation_from_fixed_sum == 1:
+                group.deal_fixed_sum = p2.fixed_sum_proposed
+                group.buyer_accepted_fixed_sum = True
+            else:
+                group.buyer_accepted_fixed_sum = False
+    if p1.offer_bribe == C.OFFER_PERCENTAGE:
+        if p2.accepted_neogtiation_from_percentage == 1:
+            group.deal_percentage = p1.percentage_proposed
+            group.seller_accepted_percentage = True
+        elif p2.accepted_neogtiation_from_percentage == 2:
+            group.seller_accepted_percentage = False
+        elif p2.accepted_neogtiation_from_percentage == 3:
+            if p1.accepted_neogtiation_from_percentage == 1:
+                group.deal_percentage = p2.percentage_proposed
+                group.buyer_accepted_percentage = True
+            else:
+                group.buyer_accepted_percentage = False
 
 class BuyerPreOffer(Page):
     form_model = 'player'
@@ -62,9 +95,12 @@ class SellerPreOffer(Page):
     def is_displayed(player: Player):
         return player.role == C.SELLER_ROLE
 
+class WaitForBuyerSendOfferPage(WaitPage):
+    pass
+
 class BuyerOfferBribe(Page):
     form_model = 'player'
-    form_fields = ['buyer_offer_bribe']
+    form_fields = ['offer_bribe']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -76,169 +112,122 @@ class BuyerOfferFixedSum(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.role == C.BUYER_ROLE and player.buyer_offer_bribe == C.OFFER_FIXED_SUM
+        return player.role == C.BUYER_ROLE and player.offer_bribe == 1
 
 class BuyerOfferPercentage(Page):
     form_model = 'player'
-    form_fields = ['fixed_sum_proposed']
+    form_fields = ['percentage_proposed']
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.role == C.BUYER_ROLE and player.buyer_offer_bribe == C.OFFER_PERCENTAGE
+        return player.role == C.BUYER_ROLE and player.offer_bribe == C.OFFER_PERCENTAGE
 
-class ResultsWaitSellerAcceptBribePage(WaitPage):
+class WaitForSellerAcceptBribePage(WaitPage):
     pass
 
-class SellerAcceptBribe(Page):
+class SellerAcceptNoBribe(Page):
     form_model = 'player'
-    form_fields = ['seller_offer_bribe']
+    form_fields = ['offer_bribe']
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.role == C.SELLER_ROLE
+        return player.role == C.SELLER_ROLE and player.group.get_player_by_role(C.BUYER_ROLE).offer_bribe == C.OFFER_NO_BRIBE
+
+class SellerAcceptFixedSum(Page):
+    form_model = 'player'
+    form_fields = ['fixed_sum_proposed', 'accepted_neogtiation_from_fixed_sum']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.SELLER_ROLE and player.group.get_player_by_role(C.BUYER_ROLE).offer_bribe == C.OFFER_FIXED_SUM
 
     @staticmethod
     def vars_for_template(player: Player):
-        return {
-            'buyer_offer_bribe': player.group.get_player_by_role(C.BUYER_ROLE).buyer_offer_bribe
-        }
+        return dict(fixed_sum_proposed=player.group.get_player_by_role(C.BUYER_ROLE).fixed_sum_proposed)
+
+class SellerAcceptPercentage(Page):
+    form_model = 'player'
+    form_fields = ['percentage_proposed', 'accepted_neogtiation_from_percentage']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.SELLER_ROLE and player.group.get_player_by_role(C.BUYER_ROLE).offer_bribe == C.OFFER_PERCENTAGE
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(percentage_proposed=player.group.get_player_by_role(C.BUYER_ROLE).percentage_proposed)
+
+class WaitForBuyerAcceptBribePage(WaitPage):
+    pass
+
+class BuyerAcceptFixedSum(Page):
+    form_model = 'player'
+    form_fields = ['accepted_neogtiation_from_fixed_sum']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.BUYER_ROLE \
+            and player.offer_bribe == C.OFFER_FIXED_SUM \
+            and player.group.get_player_by_role(C.SELLER_ROLE).accepted_neogtiation_from_fixed_sum == 3
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(fixed_sum_proposed=player.group.get_player_by_role(C.SELLER_ROLE).fixed_sum_proposed)
+
+class BuyerAcceptPercentage(Page):
+    form_model = 'player'
+    form_fields = ['accepted_neogtiation_from_percentage']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.BUYER_ROLE \
+            and player.offer_bribe == C.OFFER_PERCENTAGE \
+            and player.group.get_player_by_role(C.SELLER_ROLE).accepted_neogtiation_from_percentage == 3
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(percentage_proposed=player.group.get_player_by_role(C.SELLER_ROLE).percentage_proposed)
 
 class ResultsWaitBuyerAcceptBribePage(WaitPage):
     after_all_players_arrive = 'set_payoffs_after_offer_bribe'
-
-class OfferFixedSum(Page):
-
-    @staticmethod
-    def is_displayed(player: Player):
-        group = player.group
-        deal_fixed_sum = group.field_maybe_none('deal_fixed_sum')
-        return (not player.group.is_finished) and deal_fixed_sum is None
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        return dict(other_role=player.get_others_in_subsession()[0].role)
-
-    @staticmethod
-    def js_vars(player: Player):
-        return dict(my_id=player.id_in_group)
-
-    @staticmethod
-    def live_method(player: Player, data):
-        group = player.group
-        [other] = player.get_others_in_group()
-        if 'amount' in data:
-            try:
-                amount = int(data['amount'])
-            except ValueError:
-                return dict(error='Please enter a number.')
-            if data['type'] == 'accept':
-                if amount == other.fixed_sum_proposed:
-                    player.fixed_sum_accepted = amount
-                    other.fixed_sum_accepted = amount
-                    group.deal_fixed_sum = amount
-                    return {0: dict(finished=True)}
-            if data['type'] == 'reject':
-                group.is_finished = True
-                player.is_reject = True
-                return {0: dict(finished=True)}
-            if data['type'] == 'propose':
-                player.fixed_sum_proposed = amount
-        proposals = []
-        for p in group.get_players():
-            fixed_sum_proposed = p.field_maybe_none('fixed_sum_proposed')
-            if fixed_sum_proposed is not None:
-                proposals.append([p.id_in_group, fixed_sum_proposed])
-        return {0: dict(proposals=proposals)}
-
-    @staticmethod
-    def error_message(player: Player, values):
-        group = player.group
-        deal_fixed_sum = group.field_maybe_none('deal_fixed_sum')
-        is_finished = group.field_maybe_none('is_finished')
-        if deal_fixed_sum is None and is_finished is None:
-            return "Game not finished yet"
-
-class OfferPercentage(Page):
-
-    @staticmethod
-    def is_displayed(player: Player):
-        group = player.group
-        deal_percentage = group.field_maybe_none('deal_percentage')
-        return (not player.group.is_finished) and deal_percentage is None
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        return dict(other_role=player.get_others_in_subsession()[0].role)
-
-    @staticmethod
-    def js_vars(player: Player):
-        return dict(my_id=player.id_in_group)
-
-    @staticmethod
-    def live_method(player: Player, data):
-        group = player.group
-        [other] = player.get_others_in_group()
-        if 'amount' in data:
-            try:
-                amount = int(data['amount'])
-            except ValueError:
-                return dict(error='Please enter a number.')
-            if data['type'] == 'accept':
-                if amount == other.percentage_proposed:
-                    player.percentage_accepted = amount
-                    other.percentage_accepted = amount
-                    group.is_finished = True
-                    group.deal_percentage = amount
-                    return {0: dict(finished=True)}
-            if data['type'] == 'reject':
-                group.is_finished = True
-                player.is_reject = True
-                return {0: dict(finished=True)}
-            if data['type'] == 'propose':
-                player.percentage_proposed = amount
-        proposals = []
-        for p in group.get_players():
-            percentage_proposed = p.field_maybe_none('percentage_proposed')
-            if percentage_proposed is not None:
-                proposals.append([p.id_in_group, percentage_proposed])
-        return {0: dict(proposals=proposals)}
-
-    @staticmethod
-    def error_message(player: Player, values):
-        group = player.group
-        deal_percentage = group.field_maybe_none('deal_percentage')
-        is_finished = group.field_maybe_none('is_finished')
-        if deal_percentage is None and is_finished is None:
-            return "Game not finished yet"
 
 class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
         deal_fixed_sum = group.field_maybe_none('deal_fixed_sum')
+        buyer_accepted_fixed_sum = group.field_maybe_none('buyer_accepted_fixed_sum')
+        seller_accepted_fixed_sum = group.field_maybe_none('seller_accepted_fixed_sum')
         deal_percentage = group.field_maybe_none('deal_percentage')
-        is_negation_game_successful = False
-        if deal_fixed_sum is not None and deal_percentage is not None:
-            is_negation_game_successful = True
+        buyer_accepted_percentage = group.field_maybe_none('buyer_accepted_percentage')
+        seller_accepted_percentage = group.field_maybe_none('seller_accepted_percentage')
         return dict(
             other_role=player.get_others_in_subsession()[0].role,
+            buyer_offer_bribe=group.buyer_offer_bribe,
+            seller_offer_no_bribe=group.seller_offer_no_bribe,
             deal_fixed_sum=deal_fixed_sum,
+            buyer_accepted_fixed_sum=buyer_accepted_fixed_sum,
+            seller_accepted_fixed_sum=seller_accepted_fixed_sum,
             deal_percentage=deal_percentage,
-            is_negation_game_successful=is_negation_game_successful,
-            is_reject=player.is_reject,
+            buyer_accepted_percentage=buyer_accepted_percentage,
+            seller_accepted_percentage=seller_accepted_percentage,
         )
 
 
 page_sequence = [
     BuyerPreOffer,
     SellerPreOffer,
+    WaitForBuyerSendOfferPage,
+    BuyerOfferBribe,
     BuyerOfferFixedSum,
     BuyerOfferPercentage,
-    BuyerOfferBribe,
-    ResultsWaitSellerAcceptBribePage,
-    SellerAcceptBribe,
+    WaitForSellerAcceptBribePage,
+    SellerAcceptNoBribe,
+    SellerAcceptFixedSum,
+    SellerAcceptPercentage,
+    WaitForBuyerAcceptBribePage,
+    BuyerAcceptFixedSum,
+    BuyerAcceptPercentage,
     ResultsWaitBuyerAcceptBribePage,
-    OfferFixedSum,
-    OfferPercentage,
     Results
 ]
