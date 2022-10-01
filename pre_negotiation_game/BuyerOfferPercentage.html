@@ -4,7 +4,7 @@
 {{ block content }}
     <p>You chose to offer a percent to the seller</p>
     <p>Please choose the percent you are prepared to offer the seller (2%, 5%, 10%)?</p>
-    {{ formfield 'percentage_proposed' }}
+    {{ formfield 'percentage_proposed' label='Per cent proposed' }}
     {{ next_button }}
 
     {{ chat nickname=player.role }}
