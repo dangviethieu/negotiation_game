@@ -40,7 +40,7 @@ class Player(BasePlayer):
         choices=[
             [1, 'Accept'],
             [2, 'Reject'],
-            [3, 'Reject with new']
+            [3, 'Reject with new proposal']
         ]
     )
     percentage_proposed = models.IntegerField(initial=2, choices=[2, 5, 10])
@@ -49,7 +49,7 @@ class Player(BasePlayer):
         choices=[
             [1, 'Accept'],
             [2, 'Reject'],
-            [3, 'Reject with new']
+            [3, 'Reject with new proposal']
         ]
     )
 

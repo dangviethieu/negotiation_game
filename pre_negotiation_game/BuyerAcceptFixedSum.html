@@ -2,9 +2,11 @@
     The Negotiation situation (Buyer role)
 {{ endblock }}
 {{ block content }}
-    <p>The seller has rejected with new {{ fixed_sum_proposed }}$ to facilitate the contract negotiation. Are you willing to receive it?</p>
+    <p>The seller has rejected your proposal and asked for {{ fixed_sum_proposed }}$ to facilitate the contract negotiation. Do you accept it?</p>
     <br>
     <button class="btn btn-primary" name="accepted_neogtiation_from_fixed_sum" value="1">Accept</button>
     <button class="btn btn-warning" name="accepted_neogtiation_from_fixed_sum" value="2">Reject</button>
+    <br>
+    {{ chat nickname=player.role }}
 
 {{ endblock }}
