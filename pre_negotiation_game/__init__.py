@@ -40,7 +40,7 @@ class Player(BasePlayer):
     offer_bribe = models.IntegerField(initial=0)
     seller_offer_new_bribe = models.IntegerField(initial=0)
     fixed_sum_proposed = models.IntegerField(initial=0, min=0, max=C.ENDOWMENT)
-    accepted_neogtiation_from_fixed_sum = models.IntegerField(
+    accepted_negotiation_from_fixed_sum = models.IntegerField(
         widget=widgets.RadioSelect,
         choices=[
             [1, 'Accept'],
@@ -49,7 +49,7 @@ class Player(BasePlayer):
         ]
     )
     percentage_proposed = models.IntegerField(initial=2, choices=[2, 5, 10])
-    accepted_neogtiation_from_percentage = models.IntegerField(
+    accepted_negotiation_from_percentage = models.IntegerField(
         widget=widgets.RadioSelect,
         choices=[
             [1, 'Accept'],
@@ -63,26 +63,47 @@ def set_payoffs_after_offer_bribe(group: Group):
     p1, p2 = group.get_players()
     group.buyer_offer_bribe = p1.offer_bribe
     group.seller_offer_no_bribe = p2.offer_bribe
-    if p1.offer_bribe == C.OFFER_FIXED_SUM:
-        if p2.accepted_neogtiation_from_fixed_sum == 1:
+    if p1.offer_bribe == C.OFFER_NO_BRIBE:
+        if p2.offer_bribe == C.ACCEPT_NO_BRIBE:
+            group.seller_offer_no_bribe = C.ACCEPT_NO_BRIBE
+        elif p2.offer_bribe == C.OFFER_NEW_BRIBE:
+            group.seller_offer_no_bribe = C.OFFER_NEW_BRIBE
+            if p2.seller_offer_new_bribe == C.OFFER_FIXED_SUM:
+                group.seller_offer_new_bribe = C.OFFER_FIXED_SUM
+                if p1.accepted_negotiation_from_fixed_sum == 1:
+                    group.seller_accepted_fixed_sum = True
+                    group.deal_fixed_sum = p1.fixed_sum_proposed
+                elif p1.accepted_negotiation_from_fixed_sum == 2:
+                    group.seller_accepted_fixed_sum = False
+            elif p2.seller_offer_new_bribe == C.OFFER_PERCENTAGE:
+                group.seller_offer_new_bribe = C.OFFER_PERCENTAGE
+                if p1.accepted_negotiation_from_percentage == 1:
+                    group.seller_accepted_percentage = True
+                    group.deal_percentage = p1.percentage_proposed
+                elif p1.accepted_negotiation_from_percentage == 2:
+                    group.seller_accepted_percentage = False
+        elif p2.offer_bribe == C.REJECT_NO_BRIBE:
+            group.seller_offer_no_bribe = C.REJECT_NO_BRIBE
+    elif p1.offer_bribe == C.OFFER_FIXED_SUM:
+        if p2.accepted_negotiation_from_fixed_sum == 1:
             group.deal_fixed_sum = p1.fixed_sum_proposed
             group.seller_accepted_fixed_sum = True
-        elif p2.accepted_neogtiation_from_fixed_sum == 2:
+        elif p2.accepted_negotiation_from_fixed_sum == 2:
             group.seller_accepted_fixed_sum = False
-        elif p2.accepted_neogtiation_from_fixed_sum == 3:
-            if p1.accepted_neogtiation_from_fixed_sum == 1:
+        elif p2.accepted_negotiation_from_fixed_sum == 3:
+            if p1.accepted_negotiation_from_fixed_sum == 1:
                 group.deal_fixed_sum = p2.fixed_sum_proposed
                 group.buyer_accepted_fixed_sum = True
             else:
                 group.buyer_accepted_fixed_sum = False
-    if p1.offer_bribe == C.OFFER_PERCENTAGE:
-        if p2.accepted_neogtiation_from_percentage == 1:
+    elif p1.offer_bribe == C.OFFER_PERCENTAGE:
+        if p2.accepted_negotiation_from_percentage == 1:
             group.deal_percentage = p1.percentage_proposed
             group.seller_accepted_percentage = True
-        elif p2.accepted_neogtiation_from_percentage == 2:
+        elif p2.accepted_negotiation_from_percentage == 2:
             group.seller_accepted_percentage = False
-        elif p2.accepted_neogtiation_from_percentage == 3:
-            if p1.accepted_neogtiation_from_percentage == 1:
+        elif p2.accepted_negotiation_from_percentage == 3:
+            if p1.accepted_negotiation_from_percentage == 1:
                 group.deal_percentage = p2.percentage_proposed
                 group.buyer_accepted_percentage = True
             else:
@@ -160,7 +181,7 @@ class SellerOfferPercentage(Page):
 
 class SellerAcceptFixedSum(Page):
     form_model = 'player'
-    form_fields = ['fixed_sum_proposed', 'accepted_neogtiation_from_fixed_sum']
+    form_fields = ['fixed_sum_proposed', 'accepted_negotiation_from_fixed_sum']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -172,7 +193,7 @@ class SellerAcceptFixedSum(Page):
 
 class SellerAcceptPercentage(Page):
     form_model = 'player'
-    form_fields = ['percentage_proposed', 'accepted_neogtiation_from_percentage']
+    form_fields = ['percentage_proposed', 'accepted_negotiation_from_percentage']
 
     @staticmethod
     def is_displayed(player: Player):
@@ -185,15 +206,43 @@ class SellerAcceptPercentage(Page):
 class WaitForBuyerAcceptBribePage(WaitPage):
     pass
 
+class BuyerAcceptNewBribeWithFixedSum(Page):
+    form_model = 'player'
+    form_fields = ['accepted_negotiation_from_fixed_sum']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.BUYER_ROLE and \
+            player.group.get_player_by_role(C.SELLER_ROLE).offer_bribe == C.OFFER_NEW_BRIBE and \
+                player.group.get_player_by_role(C.SELLER_ROLE).seller_offer_new_bribe == C.OFFER_FIXED_SUM
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(fixed_sum_proposed=player.group.get_player_by_role(C.SELLER_ROLE).fixed_sum_proposed)
+
+class BuyerAcceptNewBribeWithPercentage(Page):
+    form_model = 'player'
+    form_fields = ['accepted_negotiation_from_percentage']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.BUYER_ROLE and \
+            player.group.get_player_by_role(C.SELLER_ROLE).offer_bribe == C.OFFER_NEW_BRIBE and \
+                player.group.get_player_by_role(C.SELLER_ROLE).seller_offer_new_bribe == C.OFFER_PERCENTAGE
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(percentage_proposed=player.group.get_player_by_role(C.SELLER_ROLE).percentage_proposed)
+
 class BuyerAcceptFixedSum(Page):
     form_model = 'player'
-    form_fields = ['accepted_neogtiation_from_fixed_sum']
+    form_fields = ['accepted_negotiation_from_fixed_sum']
 
     @staticmethod
     def is_displayed(player: Player):
         return player.role == C.BUYER_ROLE \
             and player.offer_bribe == C.OFFER_FIXED_SUM \
-            and player.group.get_player_by_role(C.SELLER_ROLE).accepted_neogtiation_from_fixed_sum == 3
+            and player.group.get_player_by_role(C.SELLER_ROLE).accepted_negotiation_from_fixed_sum == 3
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -201,13 +250,13 @@ class BuyerAcceptFixedSum(Page):
 
 class BuyerAcceptPercentage(Page):
     form_model = 'player'
-    form_fields = ['accepted_neogtiation_from_percentage']
+    form_fields = ['accepted_negotiation_from_percentage']
 
     @staticmethod
     def is_displayed(player: Player):
         return player.role == C.BUYER_ROLE \
             and player.offer_bribe == C.OFFER_PERCENTAGE \
-            and player.group.get_player_by_role(C.SELLER_ROLE).accepted_neogtiation_from_percentage == 3
+            and player.group.get_player_by_role(C.SELLER_ROLE).accepted_negotiation_from_percentage == 3
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -230,6 +279,7 @@ class Results(Page):
             other_role=player.get_others_in_subsession()[0].role,
             buyer_offer_bribe=group.buyer_offer_bribe,
             seller_offer_no_bribe=group.seller_offer_no_bribe,
+            seller_offer_new_bribe=group.seller_offer_new_bribe,
             deal_fixed_sum=deal_fixed_sum,
             buyer_accepted_fixed_sum=buyer_accepted_fixed_sum,
             seller_accepted_fixed_sum=seller_accepted_fixed_sum,
@@ -253,6 +303,8 @@ page_sequence = [
     SellerAcceptFixedSum,
     SellerAcceptPercentage,
     WaitForBuyerAcceptBribePage,
+    BuyerAcceptNewBribeWithFixedSum,
+    BuyerAcceptNewBribeWithPercentage,
     BuyerAcceptFixedSum,
     BuyerAcceptPercentage,
     ResultsWaitBuyerAcceptBribePage,
