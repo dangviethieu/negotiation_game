@@ -47,7 +47,7 @@
                 {{ if other_role == 'Seller' }}
                     The game is over because the seller rejected your proposal
                 {{ else }}
-                    You do not want to continue the negotiation. The game is over. 
+                    You do not want to continue the negotiation. The game is over.
                 {{ endif }}
             {{ elif buyer_accepted_percentage == False }}
                 {{ if other_role == 'Seller' }}
@@ -58,7 +58,7 @@
             {{ endif }}
         {{ endif }}
     </p>
-
+    {{next_button}}
     {{ chat nickname=player.role }}
 {{ endblock }}
 

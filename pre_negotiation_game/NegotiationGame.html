@@ -1,0 +1,10 @@
+{{ block title }}
+    The Negotiation situation ({{player.role}} role)
+{{ endblock }}
+{{ block content }}
+    <p>
+        You have 10 minutes to negotiate the price of the product. The average price for coffee beans in the market is US$ 15 for 10kg of coffee beans. You can make the offer within a 20% (+/-) variation of the market price. Please freely discuss anything and send messages you wish with/to your partner to advantage your position, along with your offer or counteroffer
+    </p>
+    {{ chat nickname=player.role }}
+
+{{ endblock }}

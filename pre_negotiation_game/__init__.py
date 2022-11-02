@@ -19,6 +19,8 @@ class C(BaseConstants):
     ACCEPT_NO_BRIBE = 0
     OFFER_NEW_BRIBE = 1
     REJECT_NO_BRIBE = 2
+    NEGOTIATION_GAME = True
+    TIMEOUT_NEGOTIATION = 60 * 10
 
 
 class Subsession(BaseSubsession):
@@ -35,6 +37,7 @@ class Group(BaseGroup):
     deal_percentage = models.IntegerField()
     buyer_accepted_percentage = models.BooleanField()
     seller_accepted_percentage = models.BooleanField()
+    next_negotiation_game = models.BooleanField()
 
 class Player(BasePlayer):
     offer_bribe = models.IntegerField(initial=0)
@@ -73,6 +76,7 @@ def set_payoffs_after_offer_bribe(group: Group):
                 if p1.accepted_negotiation_from_fixed_sum == 1:
                     group.seller_accepted_fixed_sum = True
                     group.deal_fixed_sum = p1.fixed_sum_proposed
+                    group.next_negotiation_game = True
                 elif p1.accepted_negotiation_from_fixed_sum == 2:
                     group.seller_accepted_fixed_sum = False
             elif p2.seller_offer_new_bribe == C.OFFER_PERCENTAGE:
@@ -80,6 +84,7 @@ def set_payoffs_after_offer_bribe(group: Group):
                 if p1.accepted_negotiation_from_percentage == 1:
                     group.seller_accepted_percentage = True
                     group.deal_percentage = p1.percentage_proposed
+                    group.next_negotiation_game = True
                 elif p1.accepted_negotiation_from_percentage == 2:
                     group.seller_accepted_percentage = False
         elif p2.offer_bribe == C.REJECT_NO_BRIBE:
@@ -88,24 +93,28 @@ def set_payoffs_after_offer_bribe(group: Group):
         if p2.accepted_negotiation_from_fixed_sum == 1:
             group.deal_fixed_sum = p1.fixed_sum_proposed
             group.seller_accepted_fixed_sum = True
+            group.next_negotiation_game = True
         elif p2.accepted_negotiation_from_fixed_sum == 2:
             group.seller_accepted_fixed_sum = False
         elif p2.accepted_negotiation_from_fixed_sum == 3:
             if p1.accepted_negotiation_from_fixed_sum == 1:
                 group.deal_fixed_sum = p2.fixed_sum_proposed
                 group.buyer_accepted_fixed_sum = True
+                group.next_negotiation_game = True
             else:
                 group.buyer_accepted_fixed_sum = False
     elif p1.offer_bribe == C.OFFER_PERCENTAGE:
         if p2.accepted_negotiation_from_percentage == 1:
             group.deal_percentage = p1.percentage_proposed
             group.seller_accepted_percentage = True
+            group.next_negotiation_game = True
         elif p2.accepted_negotiation_from_percentage == 2:
             group.seller_accepted_percentage = False
         elif p2.accepted_negotiation_from_percentage == 3:
             if p1.accepted_negotiation_from_percentage == 1:
                 group.deal_percentage = p2.percentage_proposed
                 group.buyer_accepted_percentage = True
+                group.next_negotiation_game = True
             else:
                 group.buyer_accepted_percentage = False
 
@@ -265,7 +274,9 @@ class BuyerAcceptPercentage(Page):
 class ResultsWaitBuyerAcceptBribePage(WaitPage):
     after_all_players_arrive = 'set_payoffs_after_offer_bribe'
 
-class Results(Page):
+class ResultsPreNegotiation(Page):
+    form_model = 'player'
+
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
@@ -288,6 +299,18 @@ class Results(Page):
             seller_accepted_percentage=seller_accepted_percentage,
         )
 
+class WaitForAllUserGoToNegotiationGamePage(WaitPage):
+    pass
+
+class NegotiationGame(Page):
+    form_model = 'player'
+    timeout_seconds = C.TIMEOUT_NEGOTIATION
+
+    @staticmethod
+    def is_displayed(player: Player):
+        next_negotiation_game = player.group.field_maybe_none('next_negotiation_game')
+        return next_negotiation_game
+
 
 page_sequence = [
     BuyerPreOffer,
@@ -308,5 +331,7 @@ page_sequence = [
     BuyerAcceptFixedSum,
     BuyerAcceptPercentage,
     ResultsWaitBuyerAcceptBribePage,
-    Results
+    ResultsPreNegotiation,
+    WaitForAllUserGoToNegotiationGamePage,
+    NegotiationGame
 ]
