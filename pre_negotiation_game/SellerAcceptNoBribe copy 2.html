@@ -1,0 +1,11 @@
+{{ block title }}
+    Seller Accept Bribe from Buyer
+{{ endblock }}
+{{ block content }}
+    <p>The buyer has not offered a bribe to you. Do you want to continue the negotiation?</p>
+    <button class="btn btn-primary" name="offer_bribe" value="1">Yes</button>
+    <button class="btn btn-warning" name="offer_bribe" value="0">No</button>
+    
+    {{ chat nickname=player.role }}
+
+{{ endblock }}

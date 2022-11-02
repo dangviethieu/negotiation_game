@@ -5,13 +5,13 @@
 {{ block content }}
     <p>
         {{ if buyer_offer_bribe == 0 }}
-            {{ if seller_offer_no_bribe == True }}
-                Now the price bargaining will start with the buyer making an offer in the first period
-            {{ else }}
+            {{ if seller_offer_no_bribe == 0 }}
+                Now the price bargaining will start with the buyer making an offer in the first period.
+            {{ elif seller_offer_no_bribe == 2 }}
                 {{ if other_role == 'Seller' }}
-                    The game is over because the seller rejected your proposal and did not want to continue the negotiation with you.
+                    The game is over because  the seller was not happy and did not want to continue the negotiation with you.
                 {{ else }}
-                    You do not want to continue the negotiation. The game is over. 
+                    You do not want to continue the negotiation. The game is over.
                 {{ endif }}
             {{ endif }}
         {{ elif buyer_offer_bribe == 1 }}

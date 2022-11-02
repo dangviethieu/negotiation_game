@@ -16,6 +16,9 @@ class C(BaseConstants):
     OFFER_NO_BRIBE = 0
     OFFER_FIXED_SUM = 1
     OFFER_PERCENTAGE = 2
+    ACCEPT_NO_BRIBE = 0
+    OFFER_NEW_BRIBE = 1
+    REJECT_NO_BRIBE = 2
 
 
 class Subsession(BaseSubsession):
@@ -24,7 +27,8 @@ class Subsession(BaseSubsession):
 
 class Group(BaseGroup):
     buyer_offer_bribe = models.IntegerField(initial=0)
-    seller_offer_no_bribe = models.BooleanField(initial=False)
+    seller_offer_no_bribe = models.IntegerField(initial=0)
+    seller_offer_new_bribe = models.IntegerField(initial=0)
     deal_fixed_sum = models.IntegerField()
     buyer_accepted_fixed_sum = models.BooleanField()
     seller_accepted_fixed_sum = models.BooleanField()
@@ -34,6 +38,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     offer_bribe = models.IntegerField(initial=0)
+    seller_offer_new_bribe = models.IntegerField(initial=0)
     fixed_sum_proposed = models.IntegerField(initial=0, min=0, max=C.ENDOWMENT)
     accepted_neogtiation_from_fixed_sum = models.IntegerField(
         widget=widgets.RadioSelect,
@@ -127,11 +132,31 @@ class WaitForSellerAcceptBribePage(WaitPage):
 
 class SellerAcceptNoBribe(Page):
     form_model = 'player'
-    form_fields = ['offer_bribe']
+    form_fields = ['offer_bribe', 'seller_offer_new_bribe']
 
     @staticmethod
     def is_displayed(player: Player):
         return player.role == C.SELLER_ROLE and player.group.get_player_by_role(C.BUYER_ROLE).offer_bribe == C.OFFER_NO_BRIBE
+    
+class SellerOfferFixedSum(Page):
+    form_model = 'player'
+    form_fields = ['fixed_sum_proposed']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.SELLER_ROLE and \
+            player.group.get_player_by_role(C.SELLER_ROLE).offer_bribe == C.OFFER_NEW_BRIBE and \
+                player.group.get_player_by_role(C.SELLER_ROLE).seller_offer_new_bribe == C.OFFER_FIXED_SUM
+                
+class SellerOfferPercentage(Page):
+    form_model = 'player'
+    form_fields = ['percentage_proposed']
+    
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == C.SELLER_ROLE and \
+            player.group.get_player_by_role(C.SELLER_ROLE).offer_bribe == C.OFFER_NEW_BRIBE and \
+                player.group.get_player_by_role(C.SELLER_ROLE).seller_offer_new_bribe == C.OFFER_PERCENTAGE
 
 class SellerAcceptFixedSum(Page):
     form_model = 'player'
@@ -223,6 +248,8 @@ page_sequence = [
     BuyerOfferPercentage,
     WaitForSellerAcceptBribePage,
     SellerAcceptNoBribe,
+    SellerOfferFixedSum,
+    SellerOfferPercentage,
     SellerAcceptFixedSum,
     SellerAcceptPercentage,
     WaitForBuyerAcceptBribePage,
