@@ -7,4 +7,11 @@
     </p>
     {{ chat nickname=player.role }}
 
+    <script>
+        setTimeout(
+            function() {
+                alert("Time has run out. Please make your decision.")
+            }, 2 * 60 * 1000
+        );
+    </script>
 {{ endblock }}

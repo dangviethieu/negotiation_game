@@ -8,9 +8,9 @@
             {{ if seller_offer_no_bribe == 0 }}
                 Now the price bargaining will start with the buyer making an offer in the first period.
             {{ elif seller_offer_no_bribe == 1 }}
-                {{ if seller_accepted_fixed_sum == True or buyer_accepted_fixed_sum == True }}
+                {{ if buyer_accepted_percentage == True or buyer_accepted_fixed_sum == True }}
                     Now please start the price negotiation for the contract with the buyer making an offer in the first period
-                {{ else seller_accepted_fixed_sum == False }}
+                {{ else }}
                     {{ if other_role == 'Buyer' }}
                         The game is over because the buyer rejected your proposal.
                     {{ else }}

@@ -20,7 +20,7 @@ class C(BaseConstants):
     OFFER_NEW_BRIBE = 1
     REJECT_NO_BRIBE = 2
     NEGOTIATION_GAME = True
-    TIMEOUT_NEGOTIATION = 60 * 10
+    TIMEOUT_NEGOTIATION = 10 * 60
 
 
 class Subsession(BaseSubsession):
@@ -74,19 +74,19 @@ def set_payoffs_after_offer_bribe(group: Group):
             if p2.seller_offer_new_bribe == C.OFFER_FIXED_SUM:
                 group.seller_offer_new_bribe = C.OFFER_FIXED_SUM
                 if p1.accepted_negotiation_from_fixed_sum == 1:
-                    group.seller_accepted_fixed_sum = True
+                    group.buyer_accepted_fixed_sum = True
                     group.deal_fixed_sum = p1.fixed_sum_proposed
                     group.next_negotiation_game = True
                 elif p1.accepted_negotiation_from_fixed_sum == 2:
-                    group.seller_accepted_fixed_sum = False
+                    group.buyer_accepted_fixed_sum = False
             elif p2.seller_offer_new_bribe == C.OFFER_PERCENTAGE:
                 group.seller_offer_new_bribe = C.OFFER_PERCENTAGE
                 if p1.accepted_negotiation_from_percentage == 1:
-                    group.seller_accepted_percentage = True
+                    group.buyer_accepted_percentage = True
                     group.deal_percentage = p1.percentage_proposed
                     group.next_negotiation_game = True
                 elif p1.accepted_negotiation_from_percentage == 2:
-                    group.seller_accepted_percentage = False
+                    group.buyer_accepted_percentage = False
         elif p2.offer_bribe == C.REJECT_NO_BRIBE:
             group.seller_offer_no_bribe = C.REJECT_NO_BRIBE
     elif p1.offer_bribe == C.OFFER_FIXED_SUM:
@@ -274,7 +274,7 @@ class BuyerAcceptPercentage(Page):
 class ResultsWaitBuyerAcceptBribePage(WaitPage):
     after_all_players_arrive = 'set_payoffs_after_offer_bribe'
 
-class ResultsPreNegotiation(Page):
+class ResultsPreNegotiationGame(Page):
     form_model = 'player'
 
     @staticmethod
@@ -311,6 +311,8 @@ class NegotiationGame(Page):
         next_negotiation_game = player.group.field_maybe_none('next_negotiation_game')
         return next_negotiation_game
 
+class ResultsNegotiationGame(Page):
+    form_model = 'player'
 
 page_sequence = [
     BuyerPreOffer,
@@ -331,7 +333,8 @@ page_sequence = [
     BuyerAcceptFixedSum,
     BuyerAcceptPercentage,
     ResultsWaitBuyerAcceptBribePage,
-    ResultsPreNegotiation,
+    ResultsPreNegotiationGame,
     WaitForAllUserGoToNegotiationGamePage,
-    NegotiationGame
+    NegotiationGame,
+    ResultsNegotiationGame
 ]
