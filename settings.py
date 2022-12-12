@@ -2,10 +2,16 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-        name='pre_negotiation_game',
+        name='negotiation_game',
         display_name="Negotiation Game",
         num_demo_participants=2,
-        app_sequence=['pre_negotiation_game'],
+        app_sequence=['negotiation_game'],
+    ),
+    dict(
+        name='negotiation_game_with_info',
+        display_name="Negotiation Game With Info",
+        num_demo_participants=2,
+        app_sequence=['question_info', 'negotiation_game'],
     )
 ]
 
@@ -18,7 +24,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = []
+PARTICIPANT_FIELDS = ['language', 'address']
 SESSION_FIELDS = []
 
 # ISO-639 code
@@ -42,5 +48,5 @@ ROOMS = [
         name='econ101',
         display_name='Econ 101 class',
         participant_label_file='_rooms/econ101.txt',
-    ),
+    )
 ]

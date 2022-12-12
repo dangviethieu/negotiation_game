@@ -1,9 +1,9 @@
 from otree.api import *
-from .helper import EN_LANGUAGE, get_user_from_db
+from .helper import User, EN_LANGUAGE, get_user_from_db
 
 
 doc = """
-Your app description
+This is a negotiation game
 """
 
 
@@ -119,18 +119,21 @@ def set_payoffs_after_offer_bribe(group: Group):
             else:
                 group.buyer_accepted_percentage = False
 
-class MyWaitPage(WaitPage):
+class WaitGroupPlayersPage(WaitPage):
     group_by_arrival_time = True
 
 def group_by_arrival_time_method(subsession, waiting_players):
-    print('in group_by_arrival_time_method')
     # matching players with ID csv file
     players_vn_language_vn = []
     players_vn_language_en = []
     players_en = []
     for player in waiting_players:
         id = player.participant.label
-        user = get_user_from_db(id)
+        # check if address, language from previous game
+        if player.participant.vars.get('address'):
+            user = User(id=id, address=player.participant.vars.get('address'), language=player.participant.vars.get('language'))
+        else:
+            user = get_user_from_db(id)
         if user is not None:
             if 'Vietnam' not in user.address:
                 players_en.append(player)
@@ -142,7 +145,6 @@ def group_by_arrival_time_method(subsession, waiting_players):
         return [players_en[0], players_vn_language_en[0]]
     elif len(players_vn_language_vn) > 1:
         return [players_vn_language_vn[0], players_vn_language_vn[1]]
-    print('not enough players yet to create a group')
 
 class BuyerPreOffer(Page):
     form_model = 'player'
@@ -341,7 +343,7 @@ class ResultsNegotiationGame(Page):
     form_model = 'player'
 
 page_sequence = [
-    MyWaitPage,
+    WaitGroupPlayersPage,
     BuyerPreOffer,
     SellerPreOffer,
     WaitForBuyerSendOfferPage,
