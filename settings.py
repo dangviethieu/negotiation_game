@@ -5,13 +5,13 @@ SESSION_CONFIGS = [
         name='negotiation_game',
         display_name="Negotiation Game",
         num_demo_participants=2,
-        app_sequence=['negotiation_game'],
+        app_sequence=['attention', 'negotiation_game'],
     ),
     dict(
         name='negotiation_game_with_info',
         display_name="Negotiation Game With Info",
         num_demo_participants=2,
-        app_sequence=['question_info', 'negotiation_game'],
+        app_sequence=['question_info', 'attention', 'negotiation_game'],
     )
 ]
 
