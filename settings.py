@@ -11,7 +11,7 @@ SESSION_CONFIGS = [
         name='negotiation_game_with_info',
         display_name="Negotiation Game With Info",
         num_demo_participants=2,
-        app_sequence=['question_info', 'attention', 'negotiation_game'],
+        app_sequence=['attention', 'question_info', 'negotiation_game'],
     )
 ]
 
@@ -45,8 +45,8 @@ SECRET_KEY = '9340409623470'
 
 ROOMS = [
     dict(
-        name='econ101',
+        name='negotiation',
         display_name='Econ 101 class',
-        participant_label_file='_rooms/econ101.txt',
+        participant_label_file='_rooms/negotiation.txt',
     )
 ]

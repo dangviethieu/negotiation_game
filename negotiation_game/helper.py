@@ -1,13 +1,8 @@
 import csv
-import requests  # pip3 install requests
-from pprint import pprint
+
 
 CSV_PATH = 'ID-Part-1.csv'
 EN_LANGUAGE = 3
-SERVER_URL = 'http://localhost:8000'
-REST_KEY = '9340409623470'  # fill this later
-
-
 
 
 class User:
@@ -34,15 +29,3 @@ def get_user_from_db(id):
         print(e)
     finally:
         return user
-
-def call_api(method, *path_parts, **params) -> dict:
-    path_parts = '/'.join(path_parts)
-    url = f'{SERVER_URL}/api/{path_parts}/'
-    resp = method(url, json=params, headers={'otree-rest-key': REST_KEY})
-    if not resp.ok:
-        msg = (
-            f'Request to "{url}" failed '
-            f'with status code {resp.status_code}: {resp.text}'
-        )
-        raise Exception(msg)
-    return resp.json()
