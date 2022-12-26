@@ -1,0 +1,34 @@
+{{ block title }}
+    NEGOTIATION SITUATION FOR BUYER
+{{ endblock }}
+{{ block content }}
+    <p>
+        <u>Background information:</u>
+        <p>You are the purchasing manager of Viha company, <b>the buyer</b>, a wholesaler distributing coffee products to coffee shops in your country. Your company is very interested in purchasing Robusta coffee beans. Assuming that only qualified buyers can get access to the purchase of the coffee bean type in the market under regulation. Queen Coffee Ltd (the seller) has the authority to compile a list of potential purchasers and determine whether or not to sell the product. <b>You will represent the Buyer to negotiate with the director of Queen Coffee about this purchase.</b></p>
+        <u>Negotiation instructions:</u>
+        <p>At the beginning, <b>as the negotiator representing the buyer, you decide whether making a side payment to the director of Queen Coffee</b> to increase the chance of the purchase. In other words, you have three following options:</p>
+        <ul>
+            <li>(A)	Not to make any side payments;</li>
+            <li>(B)	Offer a fixed amount between 0 and $100;</li>
+            <li>(C)	Offer a percentage of the contract value, such as 2%, 5%, or 10%.</li>
+        </ul>
+        <p>If you decide to offer a private side payment, your partner (the director of Queen Coffee) has three options:</p>
+        <ul>
+            <li>(1) accept the offer and advance to the main negotiation stage of the contract;</li>
+            <li>(2) don’t accept your offer and make a counteroffer. If you accept the new counteroffer, the negotiation will continue; if you reject it, the negotiation will end;</li>
+            <li>(3) reject the side payment right away and end the negotiation.</li>
+        </ul>
+        <p>If you decide <b>NOT</b> to offer a side payment, your partner may:</p>
+        <ul>
+            <li>(1) proceed with the contract negotiation without your offer of a side payment;</li>
+            <li>(2) request a side payment. If you accept the requirement, you and your partner advance to the contract negotiation stage. If you reject the demand, the negotiation ends;</li>
+            <li>(3) decide to end the negotiation right away.</li>
+        </ul>
+        <p><b>Please continue by pressing “next”.</b></p>
+    </p>
+
+    {{next_button}}
+
+    {{ chat nickname=player.role }}
+
+{{ endblock }}

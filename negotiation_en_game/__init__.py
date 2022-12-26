@@ -8,7 +8,7 @@ This is a negotiation game
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'negotiation_game'
+    NAME_IN_URL = 'negotiation_en_game'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
     ENDOWMENT = cu(100)
@@ -141,7 +141,7 @@ def group_by_arrival_time_method(subsession, waiting_players):
                 players_vn_language_vn.append(player)
             else:
                 players_vn_language_en.append(player)
-    if len(players_en) > 1 and len(players_vn_language_en) > 1:
+    if len(players_en) >= 1 and len(players_vn_language_en) >= 1:
         return [players_en[0], players_vn_language_en[0]]
     elif len(players_vn_language_vn) > 1:
         return [players_vn_language_vn[0], players_vn_language_vn[1]]

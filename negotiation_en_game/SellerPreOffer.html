@@ -1,0 +1,30 @@
+{{ block title }}
+    NEGOTIATION SITUATION FOR SELLER
+{{ endblock }}
+{{ block content }}
+    <p>
+        <u>Background information:</u>
+        <p>You are the director of Queen Coffee ltd, <b>the Seller</b>, one of the largest coffee groups in the market. Viha company, the Buyer, is very interested in purchasing Robusta beans from your company. Assuming that only qualified buyers can get access to the purchase in the market under regulation. Your company has the authority to compile a list of qualified buyers and determine whether or not to sell the product.</p>
+        <p><b>You will represent the Seller to negotiate with the purchasing manager of Viha Ldt</b> (the buyer negotiator).</p>
+        <u>Negotiation instructions:</u>
+        <p>As the director of Queen Coffee, <b>you have an implicit power to decide whether to award the purchase to Viha company.</b> You have to make a decision in one of the following possibilities:</p>
+        <p><b>If the buyer does not make a side payment for you, you will decide: </b></p>
+        <ul>
+            <li>(1)	to proceed with the contract negotiation without any side payment; </li>
+            <li>(2) to request a side payment from the buyer.  The payment can be any amount between 0 and $100 or a percentage of the contract value, such as 2%; 5%; or 10%. If the buyer accepts the requirement, you and your partner advance to the contract negotiation stage. If the buyer rejects the demand, the negotiation ends. </li>
+            <li>(3) to end the negotiation right away.</li>
+        </ul>
+        <p><b>If the buyer offers a private side payment (either an amount between 0 and $100 or a percentage of contract value such as 2%, 5% or 10%), you will decide: </b></p>
+        <ul>
+            <li>(1) to accept the offer and advance to the main negotiation stage; </li>
+            <li>(2) not to accept the offer and suggest a counteroffer. If the buyer accepts your new counteroffer, the negotiation will continue; if the buyer rejects it, the negotiation will end;</li>
+            <li>(3) to reject the side payment right away and end the negotiation.</li>
+        </ul>
+        <p><b>Please continue by pressing “next”.</b></p>
+    </p>
+
+    {{next_button}}
+
+    {{ chat nickname=player.role }}
+
+{{ endblock }}

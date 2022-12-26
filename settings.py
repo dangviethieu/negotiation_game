@@ -2,16 +2,16 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-        name='negotiation_game',
-        display_name="Negotiation Game",
+        name='negotiation_game_en',
+        display_name="Negotiation Game EN version",
         num_demo_participants=2,
-        app_sequence=['attention', 'negotiation_game'],
+        app_sequence=['attention', 'negotiation_en_game'],
     ),
     dict(
-        name='negotiation_game_with_info',
-        display_name="Negotiation Game With Info",
+        name='negotiation_game_en_with_info',
+        display_name="Negotiation Game EN version With Info",
         num_demo_participants=2,
-        app_sequence=['attention', 'question_info', 'negotiation_game'],
+        app_sequence=['attention', 'negotiation_en_game_info'],
     )
 ]
 
@@ -46,7 +46,7 @@ SECRET_KEY = '9340409623470'
 ROOMS = [
     dict(
         name='negotiation',
-        display_name='Econ 101 class',
+        display_name='Negotiation Game',
         participant_label_file='_rooms/negotiation.txt',
     )
 ]

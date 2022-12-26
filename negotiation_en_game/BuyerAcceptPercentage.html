@@ -1,0 +1,13 @@
+{{ block title }}
+    NEGOTIATION SITUATION FOR BUYER
+{{ endblock }}
+{{ block content }}
+    <p>The seller has rejected your proposal and asked for {{ percentage_proposed }}% to facilitate the contract negotiation. Do you accept it?</p>
+    <br>
+    <button class="btn btn-primary" name="accepted_negotiation_from_percentage" value="1">Accept</button>
+    <button class="btn btn-warning" name="accepted_negotiation_from_percentage" value="2">Reject</button>
+    <br>
+
+    {{ chat nickname=player.role }}
+
+{{ endblock }}

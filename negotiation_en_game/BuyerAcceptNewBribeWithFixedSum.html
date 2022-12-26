@@ -1,0 +1,12 @@
+{{ block title }}
+    Buyer Accept Side payment from Seller
+{{ endblock }}
+{{ block content }}
+    <p>The seller has asked you for {{ fixed_sum_proposed }}$ to continue the contract negotiation</p>
+    <button class="btn btn-primary" name="accepted_negotiation_from_fixed_sum" value="1">Accept</button>
+    <button class="btn btn-warning" name="accepted_negotiation_from_fixed_sum" value="2">Reject</button>
+    <br>
+    
+    {{ chat nickname=player.role }}
+
+{{ endblock }}

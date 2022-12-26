@@ -14,8 +14,11 @@ def create_rooms_from_csv_file(csv_file):
             reader = csv.reader(f)
             for row in reader:
                 # if progreess is 100%
-                if row[4] == '100':
+                try: 
+                    int(row[4])
                     rooms.append(row[8])
+                except:
+                    pass
     except Exception as e:
         print(e)
     finally:

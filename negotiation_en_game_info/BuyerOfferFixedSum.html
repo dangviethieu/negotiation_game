@@ -1,0 +1,12 @@
+{{ block title }}
+    NEGOTIATION SITUATION FOR BUYER
+{{ endblock }}
+{{ block content }}
+    <p>You chose to offer a fixed to the seller</p>
+    <p>How much are you prepared to offer the seller (from $0 - $100)?</p>
+    {{ formfield 'fixed_sum_proposed' }}
+    {{ next_button }}
+
+    {{ chat nickname=player.role }}
+
+{{ endblock }}
