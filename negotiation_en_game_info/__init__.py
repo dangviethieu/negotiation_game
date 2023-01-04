@@ -159,18 +159,6 @@ class SellerPreOffer(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.role == C.SELLER_ROLE
-    
-class BuyerPreNegotiation(Page):
-    form_model = 'player'
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.role == C.BUYER_ROLE
-
-class SellerPreNegotiation(Page):
-    form_model = 'player'
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.role == C.SELLER_ROLE
 
 class WaitForBuyerSendOfferPage(WaitPage):
     pass
@@ -360,8 +348,6 @@ page_sequence = [
     WaitGroupPlayersPage,
     BuyerPreOffer,
     SellerPreOffer,
-    BuyerPreNegotiation,
-    SellerPreNegotiation,
     WaitForBuyerSendOfferPage,
     BuyerOfferBribe,
     BuyerOfferFixedSum,

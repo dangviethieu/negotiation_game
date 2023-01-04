@@ -22,7 +22,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     consent_1 = models.BooleanField(
         widget=widgets.CheckboxInput,
-        label='I confirm that I have read and understand the information sheet for the above study. I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily'
+        label='I confirm that I have read and understand the information sheet for the above study sent to me via email. I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily'
     )
     consent_2 = models.BooleanField(
         widget=widgets.CheckboxInput,
