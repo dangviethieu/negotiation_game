@@ -145,7 +145,7 @@ def group_by_arrival_time_method(subsession, waiting_players):
     #     return [players_en[0], players_vn_language_en[0]]
     # elif len(players_vn_language_vn) > 1:
     #     return [players_vn_language_vn[0], players_vn_language_vn[1]]
-    if len(waiting_players) >= 1:
+    if len(waiting_players) > 1:
         return [waiting_players[0], waiting_players[1]]
 
 class BuyerPreOffer(Page):
