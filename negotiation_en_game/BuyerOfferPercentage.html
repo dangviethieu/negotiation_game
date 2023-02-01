@@ -1,10 +1,10 @@
-{{ block title }}
-    NEGOTIATION SITUATION FOR BUYER
-{{ endblock }}
 {{ block content }}
     <p>You chose to offer a percent to the seller</p>
     <p>Please choose the percent you are prepared to offer the seller (2%, 5%, 10%)?</p>
     {{ formfield 'percentage_proposed' label='Per cent proposed' }}
+
+    <p>You freely send any message you wish to your partner, along with your choice. Please press “send” to deliver your message and “next” to transfer your decision to the other side.</p>
+
     {{ next_button }}
 
     {{ chat nickname=player.role }}

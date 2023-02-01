@@ -5,6 +5,9 @@
     <p>The buyer has offered you {{ percentage_proposed }}% to facilitate the contract negotiation. Are you willing to receive it?</p>
     {{ formfield 'accepted_negotiation_from_percentage' label='' }}
     {{ formfield 'percentage_proposed' label='Per cent proposed' }}
+
+    <p>You freely send any message you wish to your partner, along with your choice. Please press “send” to deliver your message and “next” to transfer your decision to the other side.</p>
+
     {{ next_button }}
 
     {{ chat nickname=player.role }}

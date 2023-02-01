@@ -21,7 +21,7 @@ class C(BaseConstants):
     OFFER_NEW_BRIBE = 1
     REJECT_NO_BRIBE = 2
     NEGOTIATION_GAME = True
-    TIMEOUT_NEGOTIATION = 10 * 60
+    TIMEOUT_NEGOTIATION = 15 * 60
 
 
 class Subsession(BaseSubsession):

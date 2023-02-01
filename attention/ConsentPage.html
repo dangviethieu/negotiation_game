@@ -2,11 +2,27 @@
 
 {{ endblock }}
 {{ block content }}
-    <h4>Welcome to this study. The study examines how individuals make negotiation decisions in a moral dilemma.</h4>
-    <h4>You now take part in an online negotiation game. You will be assigned randomly a role either “buyer” or “seller” by computer. The decisions you make will be anonymised and no data at any stage can be used to identify you.</h4>
-    <h4>Please read and sign consent form below before starting the study.</h4>
-    <br>
-    {{formfields}}
-    <br>
-    {{next_button}}
+    <h6>Welcome to this study. The study examines how individuals make negotiation decisions in a moral dilemma.</h4>
+    <h6>You now take part in an online negotiation game. You will be assigned randomly a role either “buyer” or “seller” by computer. The decisions you make will be anonymised and no data at any stage can be used to identify you.</h4>
+    <h6>Please read and sign consent form below before starting the study.
+        <button data-bs-toggle="collapse" data-bs-target="#show" type="button" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+            </svg>
+        </button>
+    </h6>
+
+    <div id="show" class="collapse">
+        <h6><b><u>Consent form and attention pledge.</u></b></h6>
+        <ul>
+            <li>I confirm that I have read and understand the information sheet for the above study sent to me via email. I have had the opportunity to consider the information, ask questions and have had these answered satisfactorily</li>
+            <li>I understand that my participation is voluntary and that I am free to withdraw up to 4 weeks after taking part in the study without giving any reason, without my legal rights being affected</li>
+            <li>I understand that data collected will be used, in anonymised form, for academic and policy outputs. I give permission for the research team to have access to my responses in the online game</li>
+            <li>I agree to take part in the above study</li>
+            <li>I pledge to devote my full attention to the game and not engage in other activities, such as browsing the internet</li>
+        </ul>
+        {{formfields}}
+        <br>
+        {{next_button}}
+    </div>
 {{ endblock }}
