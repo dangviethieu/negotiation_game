@@ -5,7 +5,8 @@ SESSION_CONFIGS = [
         name='negotiation_game_en',
         display_name="Negotiation Game EN version",
         num_demo_participants=2,
-        app_sequence=['attention', 'negotiation_en_game'],
+        # app_sequence=['attention', 'negotiation_en_game'],
+        app_sequence=['survey'],
     ),
     dict(
         name='negotiation_game_en_with_info',

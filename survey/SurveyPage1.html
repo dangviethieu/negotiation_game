@@ -1,0 +1,33 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{{ block title }}
+
+{{ endblock }}
+{{ block content }}
+    <div class="instructions" style="text-align:center">
+        <b>Please answer the following questions by rating on a scale from 0 (not at all) to 10 (extremely/very).</b>
+    </div>
+
+    <table class="table">
+        {% for field in form %}
+            <tr>
+                <td>
+                    {{ field.label }}
+                </td>
+                <td align="right">
+                    {{ field }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <hr>
+    {% next_button %}
+
+    <!-- <div class="progress" style="height: 30px;">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width:{{progress|json}}%; text-align:center">
+            <span style="font-size:12pt;">{{ progress|floatformat:0 }}%</span>
+        </div>
+    </div> -->
+    
+{{ endblock }}
