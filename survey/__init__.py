@@ -105,6 +105,7 @@ class Player(BasePlayer):
     )
     itemC = models.LongStringField(
         label='Is there anything else you wish to share after the negotiation experiment (optional)?',
+        blank=True,
     )
 
 # PAGES
@@ -130,8 +131,12 @@ class SurveyPage2(Page):
     # @staticmethod
     # def before_next_page(player, timeout_happened):
     #     print(player.field_maybe_none('itemC'))
+    
+class ResultsSurveyGame(Page):
+    form_model = 'player'
 
 page_sequence = [
     SurveyPage1,
-    SurveyPage2
+    SurveyPage2,
+    ResultsSurveyGame
 ]
