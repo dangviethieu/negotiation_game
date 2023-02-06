@@ -126,27 +126,32 @@ def group_by_arrival_time_method(subsession, waiting_players):
     # matching players with ID csv file
     # players_vn_language_vn = []
     # players_vn_language_en = []
-    # players_en = []
-    # for player in waiting_players:
-    #     id = player.participant.label
-    #     # check if address, language from previous game
-    #     if player.participant.vars.get('address'):
-    #         user = User(id=id, address=player.participant.vars.get('address'), language=player.participant.vars.get('language'))
-    #     else:
-    #         user = get_user_from_db(id)
-    #     if user is not None:
-    #         if 'Vietnam' not in user.address:
-    #             players_en.append(player)
-    #         elif int(user.language) <= EN_LANGUAGE:
-    #             players_vn_language_vn.append(player)
-    #         else:
-    #             players_vn_language_en.append(player)
+    players_en = []
+    players_vn = []
+    for player in waiting_players:
+        id = player.participant.label
+        # check if address, language from previous game
+        if player.participant.vars.get('address'):
+            user = User(id=id, address=player.participant.vars.get('address'), language=player.participant.vars.get('language'))
+        else:
+            user = get_user_from_db(id)
+        if user is not None:
+            if 'Vietnam' not in user.address:
+                players_en.append(player)
+            else:
+                players_vn.append(player)
+            # elif int(user.language) <= EN_LANGUAGE:
+            #     players_vn_language_vn.append(player)
+            # else:
+            #     players_vn_language_en.append(player)
     # if len(players_en) >= 1 and len(players_vn_language_en) >= 1:
     #     return [players_en[0], players_vn_language_en[0]]
     # elif len(players_vn_language_vn) > 1:
     #     return [players_vn_language_vn[0], players_vn_language_vn[1]]
-    if len(waiting_players) > 1:
-        return [waiting_players[0], waiting_players[1]]
+    # if len(waiting_players) > 1:
+    #     return [waiting_players[0], waiting_players[1]]
+    if len(players_en) >= 1 and len(players_vn) >= 1:
+        return [players_en[0], players_vn[0]]
 
 class BuyerPreOffer(Page):
     form_model = 'player'

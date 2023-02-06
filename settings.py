@@ -5,14 +5,13 @@ SESSION_CONFIGS = [
         name='negotiation_game_en',
         display_name="Negotiation Game EN version",
         num_demo_participants=2,
-        # app_sequence=['attention', 'negotiation_en_game'],
-        app_sequence=['survey'],
+        app_sequence=['attention', 'negotiation_en_game', 'survey'],
     ),
     dict(
         name='negotiation_game_en_with_info',
         display_name="Negotiation Game EN version With Info",
         num_demo_participants=2,
-        app_sequence=['attention', 'negotiation_en_game_info'],
+        app_sequence=['attention', 'negotiation_en_game_info', 'survey'],
     )
 ]
 
@@ -51,3 +50,5 @@ ROOMS = [
         participant_label_file='_rooms/negotiation.txt',
     )
 ]
+
+VERSION = '0.3'
