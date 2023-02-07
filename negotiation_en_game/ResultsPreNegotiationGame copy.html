@@ -1,0 +1,65 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+    <p>
+        {{ if buyer_offer_bribe == 0 }}
+            {{ if seller_offer_no_bribe == 0 }}
+                Now the price bargaining will start with the buyer making an offer in the first period.
+            {{ elif seller_offer_no_bribe == 1 }}
+                {{ if buyer_accepted_percentage == True or buyer_accepted_fixed_sum == True }}
+                    You now advance to the main negotiation stage. Please check “Next” to start the price negotiation for the contract.
+                {{ else }}
+                    {{ if other_role == 'Buyer' }}
+                        The game is over because the buyer rejected your proposal.
+                    {{ else }}
+                        You do not want to continue the negotiation. The game is over. 
+                    {{ endif }}
+                {{ endif }}
+            {{ elif seller_offer_no_bribe == 2 }}
+                {{ if other_role == 'Seller' }}
+                    The game is over because  the seller was not happy and did not want to continue the negotiation with you.
+                {{ else }}
+                    You do not want to continue the negotiation. The game is over.
+                {{ endif }}
+            {{ endif }}
+        {{ elif buyer_offer_bribe == 1 }}
+            {{ if seller_accepted_fixed_sum == True or buyer_accepted_fixed_sum == True }}
+                You now advance to the main negotiation stage. Please check “Next” to start the price negotiation for the contract.
+            {{ elif seller_accepted_fixed_sum == False }}
+                {{ if other_role == 'Seller' }}
+                    The game is over because the seller rejected your proposal
+                {{ else }}
+                    You do not want to continue the negotiation. The game is over. 
+                {{ endif }}
+            {{ elif buyer_accepted_fixed_sum == False }}
+                {{ if other_role == 'Seller' }}
+                    You do not want to continue the negotiation. The game is over. 
+                {{ else }}
+                    The game is over because the buyer rejected your proposal
+                {{ endif }}
+            {{ endif }}
+        {{ else }}
+            {{ if seller_accepted_percentage == True or buyer_accepted_percentage == True }}
+                You now advance to the main negotiation stage. Please check “Next” to start the price negotiation for the contract.
+            {{ elif seller_accepted_percentage == False }}
+                {{ if other_role == 'Seller' }}
+                    The game is over because the seller rejected your proposal
+                {{ else }}
+                    You do not want to continue the negotiation. The game is over.
+                {{ endif }}
+            {{ elif buyer_accepted_percentage == False }}
+                {{ if other_role == 'Seller' }}
+                    You do not want to continue the negotiation. The game is over. 
+                {{ else }}
+                    The game is over because the buyer rejected your proposal
+                {{ endif }}
+            {{ endif }}
+        {{ endif }}
+    </p>
+    {{next_button}}
+    <p>You freely send any message you wish to your partner, along with your choice. Please press “send” to deliver your message and “next” to transfer your decision to the other side.</p>
+    {{ chat nickname=player.role }}
+{{ endblock }}
+
+

@@ -10,55 +10,36 @@
                 {{ if buyer_accepted_percentage == True or buyer_accepted_fixed_sum == True }}
                     You now advance to the main negotiation stage. Please check “Next” to start the price negotiation for the contract.
                 {{ else }}
-                    {{ if other_role == 'Buyer' }}
-                        The game is over because the buyer rejected your proposal.
-                    {{ else }}
-                        You do not want to continue the negotiation. The game is over. 
-                    {{ endif }}
+                    <p>The proposal is rejected. The game is over.</p>
+                    <p>Thank you for completing the experiment. Your earnings will be calculated by the researchers and the corresponding voucher will then be sent to you via email, along with your negotiation performance report. Now please take 3 minutes to answer a short questionnaire to evaluate your negotiation experience in this study</p>
                 {{ endif }}
             {{ elif seller_offer_no_bribe == 2 }}
-                {{ if other_role == 'Seller' }}
-                    The game is over because  the seller was not happy and did not want to continue the negotiation with you.
-                {{ else }}
-                    You do not want to continue the negotiation. The game is over.
-                {{ endif }}
+                <p>The proposal is rejected. The game is over.</p>
+                <p>Thank you for completing the experiment. Your earnings will be calculated by the researchers and the corresponding voucher will then be sent to you via email, along with your negotiation performance report. Now please take 3 minutes to answer a short questionnaire to evaluate your negotiation experience in this study</p>
             {{ endif }}
         {{ elif buyer_offer_bribe == 1 }}
             {{ if seller_accepted_fixed_sum == True or buyer_accepted_fixed_sum == True }}
                 You now advance to the main negotiation stage. Please check “Next” to start the price negotiation for the contract.
             {{ elif seller_accepted_fixed_sum == False }}
-                {{ if other_role == 'Seller' }}
-                    The game is over because the seller rejected your proposal
-                {{ else }}
-                    You do not want to continue the negotiation. The game is over. 
-                {{ endif }}
+                <p>The proposal is rejected. The game is over.</p>
+                <p>Thank you for completing the experiment. Your earnings will be calculated by the researchers and the corresponding voucher will then be sent to you via email, along with your negotiation performance report. Now please take 3 minutes to answer a short questionnaire to evaluate your negotiation experience in this study</p>
             {{ elif buyer_accepted_fixed_sum == False }}
-                {{ if other_role == 'Seller' }}
-                    You do not want to continue the negotiation. The game is over. 
-                {{ else }}
-                    The game is over because the buyer rejected your proposal
-                {{ endif }}
+                <p>The proposal is rejected. The game is over.</p>
+                <p>Thank you for completing the experiment. Your earnings will be calculated by the researchers and the corresponding voucher will then be sent to you via email, along with your negotiation performance report. Now please take 3 minutes to answer a short questionnaire to evaluate your negotiation experience in this study</p>
             {{ endif }}
         {{ else }}
             {{ if seller_accepted_percentage == True or buyer_accepted_percentage == True }}
                 You now advance to the main negotiation stage. Please check “Next” to start the price negotiation for the contract.
             {{ elif seller_accepted_percentage == False }}
-                {{ if other_role == 'Seller' }}
-                    The game is over because the seller rejected your proposal
-                {{ else }}
-                    You do not want to continue the negotiation. The game is over.
-                {{ endif }}
+                <p>The proposal is rejected. The game is over.</p>
+                <p>Thank you for completing the experiment. Your earnings will be calculated by the researchers and the corresponding voucher will then be sent to you via email, along with your negotiation performance report. Now please take 3 minutes to answer a short questionnaire to evaluate your negotiation experience in this study</p>
             {{ elif buyer_accepted_percentage == False }}
-                {{ if other_role == 'Seller' }}
-                    You do not want to continue the negotiation. The game is over. 
-                {{ else }}
-                    The game is over because the buyer rejected your proposal
-                {{ endif }}
+                <p>The proposal is rejected. The game is over.</p>
+                <p>Thank you for completing the experiment. Your earnings will be calculated by the researchers and the corresponding voucher will then be sent to you via email, along with your negotiation performance report. Now please take 3 minutes to answer a short questionnaire to evaluate your negotiation experience in this study</p>
             {{ endif }}
         {{ endif }}
     </p>
     {{next_button}}
-    {{ chat nickname=player.role }}
 {{ endblock }}
 
 

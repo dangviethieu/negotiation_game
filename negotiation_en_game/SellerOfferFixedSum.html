@@ -6,10 +6,8 @@
     <p>Please state how much you are asking for (from $0 - $100)?</p>
     {{ formfield 'fixed_sum_proposed' }}
 
-    <p>You freely send any message you wish to your partner, along with your choice. Please press “send” to deliver your message and “next” to transfer your decision to the other side.</p>
-
     {{ next_button }}
-
+    <p>You freely send any message you wish to your partner, along with your choice. Please press “send” to deliver your message and “next” to transfer your decision to the other side.</p>
     {{ chat nickname=player.role }}
 
 {{ endblock }}

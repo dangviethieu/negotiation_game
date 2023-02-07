@@ -67,6 +67,10 @@ class Player(BasePlayer):
         label='How likely do you expect the future negotiations with your partner in this negotiation?',
         choices=C.StandardChoices,
     )
+    item10A = models.IntegerField(
+        label='To what extent did you rely on your expectation of your partner\'s integrity to make a side payment decision?',
+        choices=C.StandardChoices,
+    )
     item1B = models.IntegerField(
         label='The business code of conduct and ethics of my company is ambitious with non-tolerance of corruption.',
         choices=C.SecondChoices,
@@ -111,7 +115,7 @@ class Player(BasePlayer):
 # PAGES
 class SurveyPage1(Page):
     form_model = 'player'
-    form_fields = ['item1A', 'item2A', 'item3A', 'item4A', 'item5A', 'item6A', 'item7A', 'item8A', 'item9A']
+    form_fields = ['item1A', 'item2A', 'item3A', 'item4A', 'item5A', 'item6A', 'item7A', 'item8A', 'item9A', 'item10A']
     
     def vars_for_template(self):
         return {
@@ -125,7 +129,7 @@ class SurveyPage2(Page):
     
     def vars_for_template(self):
         return {
-            'progress': 0
+            'progress': 55
         }
         
     # @staticmethod
