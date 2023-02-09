@@ -354,11 +354,31 @@ class NegotiationGame(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        next_negotiation_game = player.group.field_maybe_none('next_negotiation_game')
-        return next_negotiation_game
+        group = player.group
+        return \
+            (group.buyer_offer_bribe == C.OFFER_NO_BRIBE and group.seller_offer_no_bribe == C.ACCEPT_NO_BRIBE
+            ) or \
+            (group.buyer_offer_bribe == C.OFFER_FIXED_SUM and (
+                group.field_maybe_none('seller_accepted_fixed_sum') == True or group.field_maybe_none('buyer_accepted_fixed_sum') == True)
+            ) or \
+            (group.buyer_offer_bribe == C.OFFER_PERCENTAGE and (
+                group.field_maybe_none('seller_accepted_percentage') == True or group.field_maybe_none('buyer_accepted_percentage') == True)
+            )
 
 class ResultsNegotiationGame(Page):
     form_model = 'player'
+    @staticmethod
+    def is_displayed(player: Player):
+        group = player.group
+        return \
+            (group.buyer_offer_bribe == C.OFFER_NO_BRIBE and group.seller_offer_no_bribe == C.ACCEPT_NO_BRIBE
+            ) or \
+            (group.buyer_offer_bribe == C.OFFER_FIXED_SUM and (
+                group.field_maybe_none('seller_accepted_fixed_sum') == True or group.field_maybe_none('buyer_accepted_fixed_sum') == True)
+            ) or \
+            (group.buyer_offer_bribe == C.OFFER_PERCENTAGE and (
+                group.field_maybe_none('seller_accepted_percentage') == True or group.field_maybe_none('buyer_accepted_percentage') == True)
+            )
 
 page_sequence = [
     WaitGroupPlayersPage,
