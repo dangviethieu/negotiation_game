@@ -1,17 +1,23 @@
 from os import environ
 
 SESSION_CONFIGS = [
+    # dict(
+    #     name='negotiation_game_en',
+    #     display_name="Negotiation Game EN version",
+    #     num_demo_participants=2,
+    #     app_sequence=['attention', 'negotiation_en_game', 'survey'],
+    # ),
+    # dict(
+    #     name='negotiation_game_en_with_info',
+    #     display_name="Negotiation Game EN version With Info",
+    #     num_demo_participants=2,
+    #     app_sequence=['attention', 'negotiation_en_game_info', 'survey'],
+    # )
     dict(
-        name='negotiation_game_en',
-        display_name="Negotiation Game EN version",
+        name='survey_game',
+        display_name="Survey Game",
         num_demo_participants=2,
-        app_sequence=['attention', 'negotiation_en_game', 'survey'],
-    ),
-    dict(
-        name='negotiation_game_en_with_info',
-        display_name="Negotiation Game EN version With Info",
-        num_demo_participants=2,
-        app_sequence=['attention', 'negotiation_en_game_info', 'survey'],
+        app_sequence=['survey'],
     )
 ]
 
@@ -43,12 +49,12 @@ DEMO_PAGE_INTRO_HTML = """ """
 
 SECRET_KEY = '9340409623470'
 
-ROOMS = [
-    dict(
-        name='negotiation',
-        display_name='Negotiation Game',
-        participant_label_file='_rooms/negotiation.txt',
-    )
-]
+# ROOMS = [
+#     dict(
+#         name='negotiation',
+#         display_name='Negotiation Game',
+#         participant_label_file='_rooms/negotiation.txt',
+#     )
+# ]
 
 VERSION = '0.3'

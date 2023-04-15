@@ -34,7 +34,7 @@
     <script>
         // hide next button until all questions are answered
         score_array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        total_score = 20;
+        total_score = 25;
         $(document).ready(function() {
             $('.form-select').each(function() {
                 console.log($(this).attr('id'));
@@ -49,7 +49,7 @@
                     progress = (score_array.reduce((a, b) => a + b, 0) / total_score) * 100;
                     $('.progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
                     $('.progress-bar').text(progress + '%');
-                    if (progress == 50) {
+                    if (progress == 40) {
                         $('#Next').prop('disabled', false);
                     } else {
                         $('#Next').prop('disabled', true);

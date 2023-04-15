@@ -20,7 +20,9 @@ class C(BaseConstants):
         [3, 'Somewhat True'],
         [4, 'Completely True']
     ]
-    
+    ThirdChoices = [
+        0, 1, 2, 3, 4, 5, 6
+    ]
 
 class Subsession(BaseSubsession):
     pass
@@ -111,6 +113,70 @@ class Player(BasePlayer):
         label='Is there anything else you wish to share after the negotiation experiment (optional)?',
         blank=True,
     )
+    itemD = models.IntegerField(
+        label='How much do you trust your partner after interacting with them?',
+        blank=True,
+    )
+    item1D = models.IntegerField(
+        label='Guilty?',
+        choices=C.ThirdChoices,
+    )
+    item2D = models.IntegerField(
+        label='Anxious?',
+        choices=C.ThirdChoices,
+    )
+    item3D = models.IntegerField(
+        label='Pleasant?',
+        choices=C.ThirdChoices,
+    )
+    itemE = models.IntegerField(
+        label='How did you feel being offered or being requested the side payment?',
+        blank=True,
+    )
+    item1E = models.IntegerField(
+        label='Angry?',
+        choices=C.ThirdChoices,
+    )
+    item2E = models.IntegerField(
+        label='Pleasant?',
+        choices=C.ThirdChoices,
+    )
+    item3E = models.IntegerField(
+        label='Anxious?',
+        choices=C.ThirdChoices,
+    )
+    item4E = models.IntegerField(
+        label='Empathetic?',
+        choices=C.ThirdChoices,
+    )
+    item5E = models.IntegerField(
+        label='Disappointed?',
+        choices=C.ThirdChoices,
+    )
+    itemF = models.IntegerField(
+        label='How did you feel when your side payment offer/request was rejected?',
+        blank=True,
+    )
+    item1F = models.IntegerField(
+        label='Angry?',
+        choices=C.ThirdChoices,
+    )
+    item2F = models.IntegerField(
+        label='Pleasant?',
+        choices=C.ThirdChoices,
+    )
+    item3F = models.IntegerField(
+        label='Disappointed?',
+        choices=C.ThirdChoices,
+    )
+    item4F = models.IntegerField(
+        label='Empathetic?',
+        choices=C.ThirdChoices,
+    )
+    item5F = models.IntegerField(
+        label='Anxious?',
+        choices=C.ThirdChoices,
+    )
 
 # PAGES
 class SurveyPage1(Page):
@@ -122,8 +188,34 @@ class SurveyPage1(Page):
             'progress': 0
         }
 
-
 class SurveyPage2(Page):
+    form_model = 'player'
+    form_fields = ['item1D', 'item2D', 'item3D']
+    
+    def vars_for_template(self):
+        return {
+            'progress': 40
+        }
+
+class SurveyPage3(Page):
+    form_model = 'player'
+    form_fields = ['item1E', 'item2E', 'item3E', 'item4E', 'item5E']
+    
+    def vars_for_template(self):
+        return {
+            'progress': 43
+        }
+
+class SurveyPage4(Page):
+    form_model = 'player'
+    form_fields = ['item1F', 'item2F', 'item3F', 'item4F', 'item5F']
+    
+    def vars_for_template(self):
+        return {
+            'progress': 48
+        }
+
+class SurveyPage5(Page):
     form_model = 'player'
     form_fields = ['item1B', 'item2B', 'item3B', 'item4B', 'item5B', 'item6B', 'item7B', 'item8B', 'item9B', 'itemC']
     
@@ -131,10 +223,6 @@ class SurveyPage2(Page):
         return {
             'progress': 55
         }
-        
-    # @staticmethod
-    # def before_next_page(player, timeout_happened):
-    #     print(player.field_maybe_none('itemC'))
     
 class ResultsSurveyGame(Page):
     form_model = 'player'
@@ -142,5 +230,8 @@ class ResultsSurveyGame(Page):
 page_sequence = [
     SurveyPage1,
     SurveyPage2,
+    SurveyPage3,
+    SurveyPage4,
+    SurveyPage5,
     ResultsSurveyGame
 ]

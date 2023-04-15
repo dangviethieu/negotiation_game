@@ -8,7 +8,7 @@
     <div class="instructions" style="text-align:center">
         <b>Please answer the following questions by rating on a scale from 0 (not at all) to 6 (very).</b>
         <br>
-        How did you feel making/requesting a side payment or accepting the side payment?
+        How did you feel when your side payment offer/request was rejected?
     </div>
 
     <table class="table">
@@ -48,10 +48,10 @@
                         score_array[i - 1] = 0;
                     }
                     console.log(score_array);
-                    progress = 40 + (score_array.reduce((a, b) => a + b, 0) / total_score) * 100;
+                    progress = 48 + (score_array.reduce((a, b) => a + b, 0) / total_score) * 100;
                     $('.progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
                     $('.progress-bar').text(progress + '%');
-                    if (progress == 43) {
+                    if (progress == 53) {
                         $('#Next').prop('disabled', false);
                     } else {
                         $('#Next').prop('disabled', true);

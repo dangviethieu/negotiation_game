@@ -1,0 +1,128 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{{ block title }}
+
+{{ endblock }}
+{{ block content }}
+    <div class="instructions" style="text-align:center">
+        <b>Please rate how true/false the following statements are to you:</b>
+    </div>
+
+    <table class="table">
+        <tr>
+            <td>
+                {{ form.item1B.label }}
+            </td>
+            <td align="right">
+                {{ form.item1B }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.item2B.label }}
+            </td>
+            <td align="right">
+                {{ form.item2B }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.item3B.label }}
+            </td>
+            <td align="right">
+                {{ form.item3B }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.item4B.label }}
+            </td>
+            <td align="right">
+                {{ form.item4B }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.item5B.label }}
+            </td>
+            <td align="right">
+                {{ form.item5B }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.item6B.label }}
+            </td>
+            <td align="right">
+                {{ form.item6B }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.item7B.label }}
+            </td>
+            <td align="right">
+                {{ form.item7B }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.item8B.label }}
+            </td>
+            <td align="right">
+                {{ form.item8B }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form.item9B.label }}
+            </td>
+            <td align="right">
+                {{ form.item9B }}
+            </td>
+        </tr>
+    </table>
+
+    {{ formfield 'itemC' label="Is there anything else you wish to share after the negotiation experiment (optional)?"}}
+
+    <br>
+    <br>
+    <div class="progress" style="height: 30px;">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width:{{progress|json}}%; text-align:center">
+            <span style="font-size:12pt;">{{ progress }}%</span>
+        </div>
+    </div>
+
+    <hr>
+    <button class="o-tree-btn-next btn btn-primary" id="Next" disabled>Submit</button>
+
+    <script>
+        // hide next button until all questions are answered
+        score_array = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        total_score = 10;
+        $(document).ready(function() {
+            $('.form-select').each(function() {
+                console.log($(this).attr('id'));
+                $(this).change(function() {
+                    var i = $(this).attr('id').match(/\d+/)[0];
+                    if ($(this).val()) {
+                        score_array[i - 1] = 1;
+                    } else {
+                        score_array[i - 1] = 0;
+                    }
+                    console.log(score_array);
+                    progress = 55 + (score_array.reduce((a, b) => a + b, 0) / 10) * 50;
+                    $('.progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
+                    $('.progress-bar').text(progress + '%');
+                    if (progress == 100) {
+                        $('#Next').prop('disabled', false);
+                    } else {
+                        $('#Next').prop('disabled', true);
+                    }
+                });
+            });
+        });
+    </script>
+    
+{{ endblock }}
