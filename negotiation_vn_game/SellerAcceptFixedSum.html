@@ -1,0 +1,11 @@
+{{ block title }}
+{{ endblock }}
+{{ block content }}
+    <p>Phía bên mua đã đề nghị trả riêng bạn {{ fixed_sum_proposed }}đô la để tạo điều kiện thuận lợi cho việc đàm phán hợp đồng. Bạn có chấp nhận nó không?</p>
+    {{ formfield 'accepted_negotiation_from_fixed_sum'  label='' }}
+    {{ formfield 'fixed_sum_proposed' }}
+    <button class="o-tree-btn-next btn btn-primary" id="Next">Tiếp tục</button>
+    <h5><b>Nhớ rằng cùng với các lựa chọn đưa ra, bạn có thể tự do trao đổi tin nhắn đến đối tác của bạn bằng cách viết vào hộp chat bên dưới. Nhấn nút “Gửi” để gửi tin nhắn và nút “Tiếp theo” để chuyển lựa chọn của bạn cho phía bên kia.</b></h5>
+    {{ chat nickname=player.role }}
+
+{{ endblock }}

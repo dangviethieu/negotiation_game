@@ -1,24 +1,30 @@
 from os import environ
 
 SESSION_CONFIGS = [
-    # dict(
-    #     name='negotiation_game_en',
-    #     display_name="Negotiation Game EN version",
-    #     num_demo_participants=2,
-    #     app_sequence=['attention', 'negotiation_en_game', 'survey'],
-    # ),
-    # dict(
-    #     name='negotiation_game_en_with_info',
-    #     display_name="Negotiation Game EN version With Info",
-    #     num_demo_participants=2,
-    #     app_sequence=['attention', 'negotiation_en_game_info', 'survey'],
-    # )
     dict(
-        name='survey_game',
-        display_name="Survey Game",
+        name='negotiation_game_en',
+        display_name="Negotiation Game EN version",
         num_demo_participants=2,
-        app_sequence=['survey'],
-    )
+        app_sequence=['attention', 'negotiation_en_game', 'survey'],
+    ),
+    dict(
+        name='negotiation_game_en_with_info',
+        display_name="Negotiation Game EN version With Info",
+        num_demo_participants=2,
+        app_sequence=['attention', 'negotiation_en_game_info', 'survey'],
+    ),
+    dict(
+        name='negotiation_game_vn',
+        display_name="Negotiation Game VN version",
+        num_demo_participants=2,
+        app_sequence=['attention_vn', 'negotiation_vn_game', 'survey_vn'],
+    ),
+    dict(
+        name='negotiation_game_vn_with_info',
+        display_name="Negotiation Game VN version With Info",
+        num_demo_participants=2,
+        app_sequence=['attention_vn', 'negotiation_vn_game_info', 'survey_vn'],
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -49,12 +55,12 @@ DEMO_PAGE_INTRO_HTML = """ """
 
 SECRET_KEY = '9340409623470'
 
-# ROOMS = [
-#     dict(
-#         name='negotiation',
-#         display_name='Negotiation Game',
-#         participant_label_file='_rooms/negotiation.txt',
-#     )
-# ]
+ROOMS = [
+    dict(
+        name='negotiation',
+        display_name='Negotiation Game',
+        participant_label_file='_rooms/negotiation.txt',
+    )
+]
 
-VERSION = '0.3'
+VERSION = '0.4'

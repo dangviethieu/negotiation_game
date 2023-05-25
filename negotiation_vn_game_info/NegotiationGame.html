@@ -1,0 +1,25 @@
+{{ block title }}
+    Thương lượng giá ({{player.role}})
+{{ endblock }}
+{{ block content }}
+    <p>Bạn sẽ thương lượng giá cho 1000 kg hạt cà phê Robusta. Giá hạt cà phê Robusta trung bình trên thị trường là 1,5USD/kg. Bạn có thể đưa ra mức giá trong phạm vi chênh lệch 40% (+/-) so với giá trung bình thị trường.</p>
+    <p>Bạn có 15 phút để thương lượng trong phần này. Cuộc đàm phán sẽ kết thúc khi hai bên đạt được thỏa thuận hoặc hết thời gian.</p>
+    <p><b>Vui lòng gửi tin nhắn cùng với giá đề xuất của bạn trong hộp trò chuyện bên dưới. Bạn có thể thoải mái trao đổi với đối tác của mình bằng cách chào hỏi, nhắn tin để giành được lợi thế thương lượng.</b></p>
+    <p><b>Hãy cho biết mức giá đề nghị ban đầu của bạn (từ 0,9 đô la đến 2,1 đô la):</b></p>
+    {{ chat nickname=player.role }}
+    <br>
+    <br>
+    <br>
+    <p>
+        Nếu bạn đạt được thỏa thuận với đối tác của mình, vui lòng bấm nút "Hoàn thành" bên dưới.
+    </p>
+    <button class="o-tree-btn-next btn btn-primary" id="Next"">Hoàn thành</button>
+
+    <!-- <script>
+        setTimeout(
+            function() {
+                alert("Time has run out. Please make your decision.")
+            }, 2 * 60 * 1000
+        );
+    </script> -->
+{{ endblock }}
