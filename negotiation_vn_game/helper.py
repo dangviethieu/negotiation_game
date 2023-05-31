@@ -24,8 +24,17 @@ def get_user_from_db(id):
             reader = csv.reader(f)
             for row in reader:
                 if row[8] == id:
-                    user = User(id, row[6][0], row[5])
+                    user = User(id, row[6][0], get_address_vn(row[5]))
     except Exception as e:
         print(e)
     finally:
         return user
+
+def get_address_vn(address):
+    if address == "Middle Vietnam":
+        return "Miền Trung Việt Nam"
+    elif address == "North Vietnam":
+        return "Miền Bắc Việt Nam"
+    elif address == "South Vietnam":
+        return "Miền Nam Việt Nam"
+    return address

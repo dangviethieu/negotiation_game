@@ -343,7 +343,8 @@ class WaitForAllUserGoToNegotiationGamePage(WaitPage):
     def is_displayed(player: Player):
         group = player.group
         return \
-            (group.buyer_offer_bribe == C.OFFER_NO_BRIBE and group.seller_offer_no_bribe == C.ACCEPT_NO_BRIBE
+            (group.buyer_offer_bribe == C.OFFER_NO_BRIBE and (group.seller_offer_no_bribe == C.ACCEPT_NO_BRIBE or 
+                group.field_maybe_none('seller_accepted_fixed_sum') == True or group.field_maybe_none('buyer_accepted_fixed_sum') == True)
             ) or \
             (group.buyer_offer_bribe == C.OFFER_FIXED_SUM and (
                 group.field_maybe_none('seller_accepted_fixed_sum') == True or group.field_maybe_none('buyer_accepted_fixed_sum') == True)
@@ -360,7 +361,8 @@ class NegotiationGame(Page):
     def is_displayed(player: Player):
         group = player.group
         return \
-            (group.buyer_offer_bribe == C.OFFER_NO_BRIBE and group.seller_offer_no_bribe == C.ACCEPT_NO_BRIBE
+            (group.buyer_offer_bribe == C.OFFER_NO_BRIBE and (group.seller_offer_no_bribe == C.ACCEPT_NO_BRIBE or 
+                group.field_maybe_none('seller_accepted_fixed_sum') == True or group.field_maybe_none('buyer_accepted_fixed_sum') == True)
             ) or \
             (group.buyer_offer_bribe == C.OFFER_FIXED_SUM and (
                 group.field_maybe_none('seller_accepted_fixed_sum') == True or group.field_maybe_none('buyer_accepted_fixed_sum') == True)
@@ -376,7 +378,8 @@ class ResultsNegotiationGame(Page):
     def is_displayed(player: Player):
         group = player.group
         return \
-            (group.buyer_offer_bribe == C.OFFER_NO_BRIBE and group.seller_offer_no_bribe == C.ACCEPT_NO_BRIBE
+            (group.buyer_offer_bribe == C.OFFER_NO_BRIBE and (group.seller_offer_no_bribe == C.ACCEPT_NO_BRIBE or 
+                group.field_maybe_none('seller_accepted_fixed_sum') == True or group.field_maybe_none('buyer_accepted_fixed_sum') == True)
             ) or \
             (group.buyer_offer_bribe == C.OFFER_FIXED_SUM and (
                 group.field_maybe_none('seller_accepted_fixed_sum') == True or group.field_maybe_none('buyer_accepted_fixed_sum') == True)

@@ -5,37 +5,37 @@
     <p>
         {{ if buyer_offer_bribe == 0 }}
             {{ if seller_offer_no_bribe == 0 }}
-                Bây giờ việc mặc cả giá sẽ bắt đầu với việc người mua đưa ra đề nghị trong giai đoạn đầu tiên.
+                Vui lòng tiếp tục quá trình thương lượng giá của hợp đồng bằng cách chọn nút “Tiếp theo” bên dưới.
             {{ elif seller_offer_no_bribe == 1 }}
                 {{ if buyer_accepted_percentage == True or buyer_accepted_fixed_sum == True }}
                     Vui lòng tiếp tục quá trình thương lượng giá của hợp đồng bằng cách chọn nút “Tiếp theo” bên dưới.
                 {{ else }}
                     <p>Cuộc đàm phán kết thúc vì phía đối tác không muốn tiếp tục thương lượng với bạn.</p>
-                    <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá kinh nghiệm đàm phán của bạn trong nghiên cứu này.</p>
+                    <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá trải nghiệm đàm phán của bạn trong nghiên cứu này.</p>
                 {{ endif }}
             {{ elif seller_offer_no_bribe == 2 }}
                 <p>Cuộc đàm phán kết thúc vì phía đối tác không muốn tiếp tục thương lượng với bạn.</p>
-                <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá kinh nghiệm đàm phán của bạn trong nghiên cứu này.</p>
+                <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá trải nghiệm đàm phán của bạn trong nghiên cứu này.</p>
             {{ endif }}
         {{ elif buyer_offer_bribe == 1 }}
             {{ if seller_accepted_fixed_sum == True or buyer_accepted_fixed_sum == True }}
                 Vui lòng tiếp tục quá trình thương lượng giá của hợp đồng bằng cách chọn nút “Tiếp theo” bên dưới.
             {{ elif seller_accepted_fixed_sum == False }}
                 <p>Cuộc đàm phán kết thúc vì phía đối tác không muốn tiếp tục thương lượng với bạn.</p>
-                <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá kinh nghiệm đàm phán của bạn trong nghiên cứu này.</p>
+                <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá trải nghiệm đàm phán của bạn trong nghiên cứu này.</p>
             {{ elif buyer_accepted_fixed_sum == False }}
                 <p>Cuộc đàm phán kết thúc vì phía đối tác không muốn tiếp tục thương lượng với bạn.</p>
-                <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá kinh nghiệm đàm phán của bạn trong nghiên cứu này.</p>
+                <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá trải nghiệm đàm phán của bạn trong nghiên cứu này.</p>
             {{ endif }}
         {{ else }}
             {{ if seller_accepted_percentage == True or buyer_accepted_percentage == True }}
                 Vui lòng tiếp tục quá trình thương lượng giá của hợp đồng bằng cách chọn nút “Tiếp theo” bên dưới.
             {{ elif seller_accepted_percentage == False }}
                 <p>Cuộc đàm phán kết thúc vì phía đối tác không muốn tiếp tục thương lượng với bạn.</p>
-                <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá kinh nghiệm đàm phán của bạn trong nghiên cứu này.</p>
+                <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá trải nghiệm đàm phán của bạn trong nghiên cứu này.</p>
             {{ elif buyer_accepted_percentage == False }}
                 <p>Cuộc đàm phán kết thúc vì phía đối tác không muốn tiếp tục thương lượng với bạn.</p>
-                <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá kinh nghiệm đàm phán của bạn trong nghiên cứu này.</p>
+                <p>Thu nhập của bạn sẽ được các nhà nghiên cứu tính toán và phiếu thưởng tương ứng sau đó sẽ được gửi cho bạn qua email, cùng với báo cáo hiệu suất thương lượng của bạn. Bây giờ xin vui lòng dành 3 phút để trả lời một bảng câu hỏi ngắn để đánh giá trải nghiệm đàm phán của bạn trong nghiên cứu này.</p>
             {{ endif }}
         {{ endif }}
     </p>
