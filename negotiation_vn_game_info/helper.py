@@ -31,10 +31,11 @@ def get_user_from_db(id):
         return user
 
 def get_address_vn(address):
-    if address == "Middle Vietnam":
+    address = address.strip().lower()
+    if address == "middle vietnam":
         return "Miền Trung Việt Nam"
-    elif address == "North Vietnam":
+    elif address == "north vietnam":
         return "Miền Bắc Việt Nam"
-    elif address == "South Vietnam":
+    elif address == "south vietnam":
         return "Miền Nam Việt Nam"
     return address
