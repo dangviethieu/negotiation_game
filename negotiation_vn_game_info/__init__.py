@@ -1,5 +1,5 @@
 from otree.api import *
-from .helper import User, EN_LANGUAGE, get_user_from_db
+from .helper import User, EN_LANGUAGE, get_user_from_excel
 
 
 doc = """
@@ -134,9 +134,9 @@ def group_by_arrival_time_method(subsession, waiting_players):
         id = player.participant.label
         # check if address, language from previous game
         if player.participant.vars.get('address'):
-            user = User(id=id, address=player.participant.vars.get('address'), language=player.participant.vars.get('language'))
+            user = User(id=id, address=player.participant.vars.get('address'), language=player.participant.vars.get('language'), email="")
         else:
-            user = get_user_from_db(id)
+            user = get_user_from_excel(id)
         if user is not None:
             player.address = user.address
             # if 'Vietnam' not in user.address:
