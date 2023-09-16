@@ -74,7 +74,7 @@ class Player(BasePlayer):
         choices=C.StandardChoices,
     )
     item1B = models.IntegerField(
-        label='The business code of conduct and ethics of my company is ambitious with non-tolerance of corruption.',
+        label='The business code of conduct and ethics of my company is ambiguous with non-tolerance of corruption.',
         choices=C.SecondChoices,
     )
     item2B = models.IntegerField(
