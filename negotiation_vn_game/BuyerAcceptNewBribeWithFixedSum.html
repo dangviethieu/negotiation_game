@@ -1,7 +1,11 @@
 {{ block content }}
     <p>Giám đốc Queen Coffee đã yêu cầu một khoản {{ fixed_sum_proposed }} đô la để tiếp tục cuộc thương lượng</p>
+    <p>Nếu bạn từ chối yêu cầu này từ người bán, cuộc thương lượng sẽ kết thúc ngay lập tức mà không đi đến phần thương lượng giá.</p>
+    <br>
     <button class="btn btn-primary" name="accepted_negotiation_from_fixed_sum" value="1">Chấp nhận</button>
     <button class="btn btn-warning" name="accepted_negotiation_from_fixed_sum" value="2">Từ chối</button>
+    <br>
+    <br>
     <br>
     <h5><b>Nhớ rằng cùng với các lựa chọn đưa ra, bạn có thể tự do trao đổi tin nhắn đến đối tác của bạn bằng cách viết vào hộp chat bên dưới. Nhấn nút “Gửi” để gửi tin nhắn và nút “Tiếp theo” để chuyển lựa chọn của bạn cho phía bên kia.</b></h5>
     {{ chat nickname=player.role }}

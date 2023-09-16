@@ -3,9 +3,12 @@
 {{ endblock }}
 {{ block content }}
     <p>The seller has rejected your proposal and asked for {{ percentage_proposed }}% to facilitate the contract negotiation. Do you accept it?</p>
+    <p>If you turn down this request, the game will end immediately without the contact negotiation.</p>
     <br>
     <button class="btn btn-primary" name="accepted_negotiation_from_percentage" value="1">Accept</button>
     <button class="btn btn-warning" name="accepted_negotiation_from_percentage" value="2">Reject</button>
+    <br>
+    <br>
     <br>
     <h5><b>You freely send any message you wish to your partner, along with your choice. Please press “send” to deliver your message and “next” to transfer your decision to the other side.</b></h5>
     {{ chat nickname=player.role }}
