@@ -156,7 +156,9 @@ def group_by_arrival_time_method(subsession, waiting_players):
     # if len(waiting_players) > 1:
     #     return [waiting_players[0], waiting_players[1]]
     if len(players) > 1:
-        return random.shuffle([players[0], players[1]])
+        ret = [players[0], players[1]]
+        random.shuffle(ret)
+        return ret
 
 class BuyerPreOffer(Page):
     form_model = 'player'
