@@ -1,7 +1,7 @@
 {{ block title }}
 {{ endblock }}
 {{ block content }}
-    <p><b>You are informed that the director of Queen Coffee (your partner from the seller side) is from {{player.address}}</b></p>
+    <p><b>You are informed that the director of Queen Coffee (your partner from the seller side) is from {{other_player.address}}</b></p>
     <p>The buyer has offered you {{ fixed_sum_proposed }}$ to facilitate the contract negotiation. Are you willing to receive it?</p>
     {{ formfield 'accepted_negotiation_from_fixed_sum'  label='' }}
     {{ formfield 'fixed_sum_proposed' }}

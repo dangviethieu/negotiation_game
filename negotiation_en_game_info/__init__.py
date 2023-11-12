@@ -140,12 +140,14 @@ def group_by_arrival_time_method(subsession, waiting_players):
         if user is not None:
             player.address = user.address
             if 'Vietnam' not in user.address:
+                player._role = C.BUYER_ROLE
                 players_en.append(player)
             # elif int(user.language) <= EN_LANGUAGE:
             #     players_vn_language_vn.append(player)
             # else:
             #     players_vn_language_en.append(player)
             else:
+                player._role = C.SELLER_ROLE
                 players_vn.append(player)
     # if len(players_en) >= 1 and len(players_vn_language_en) >= 1:
     #     return [players_en[0], players_vn_language_en[0]]
@@ -181,6 +183,13 @@ class BuyerOfferBribe(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.role == C.BUYER_ROLE
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        print(player.get_others_in_group()[0])
+        return dict(
+            other_player=player.get_others_in_group()[0]
+        )
 
 class BuyerOfferFixedSum(Page):
     form_model = 'player'
@@ -189,6 +198,13 @@ class BuyerOfferFixedSum(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.role == C.BUYER_ROLE and player.offer_bribe == 1
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        print(player.get_others_in_group()[0])
+        return dict(
+            other_player=player.get_others_in_group()[0]
+        )
 
 class BuyerOfferPercentage(Page):
     form_model = 'player'
@@ -239,7 +255,10 @@ class SellerAcceptFixedSum(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(fixed_sum_proposed=player.group.get_player_by_role(C.BUYER_ROLE).fixed_sum_proposed)
+        return dict(
+            other_player=player.get_others_in_group()[0],
+            fixed_sum_proposed=player.group.get_player_by_role(C.BUYER_ROLE).fixed_sum_proposed
+        )
 
 class SellerAcceptPercentage(Page):
     form_model = 'player'
@@ -251,7 +270,10 @@ class SellerAcceptPercentage(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(percentage_proposed=player.group.get_player_by_role(C.BUYER_ROLE).percentage_proposed)
+        return dict(
+            other_player=player.get_others_in_group()[0],
+            percentage_proposed=player.group.get_player_by_role(C.BUYER_ROLE).percentage_proposed
+        )
 
 class WaitForBuyerAcceptBribePage(WaitPage):
     pass

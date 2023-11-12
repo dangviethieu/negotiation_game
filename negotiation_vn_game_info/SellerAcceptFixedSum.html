@@ -1,7 +1,7 @@
 {{ block title }}
 {{ endblock }}
 {{ block content }}
-    <p><b>Bạn được cho biết rằng Trưởng phòng thu mua của Viha (đối tác thương lượng của bạn) đến từ {{player.address}}</b></p>
+    <p><b>Bạn được cho biết rằng Trưởng phòng thu mua của Viha (đối tác thương lượng của bạn) đến từ {{other_player.address}}</b></p>
     <p>Phía bên mua đã đề nghị trả riêng bạn {{ fixed_sum_proposed }}đô la để tạo điều kiện thuận lợi cho việc đàm phán hợp đồng. Bạn có chấp nhận nó không?</p>
     {{ formfield 'accepted_negotiation_from_fixed_sum'  label='' }}
     {{ formfield 'fixed_sum_proposed' }}

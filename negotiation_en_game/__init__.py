@@ -138,8 +138,10 @@ def group_by_arrival_time_method(subsession, waiting_players):
             user = get_user_from_excel(id)
         if user is not None:
             if 'Vietnam' not in user.address:
+                player._role = C.BUYER_ROLE
                 players_en.append(player)
             else:
+                player._role = C.SELLER_ROLE
                 players_vn.append(player)
             # elif int(user.language) <= EN_LANGUAGE:
             #     players_vn_language_vn.append(player)
