@@ -185,7 +185,6 @@ class BuyerOfferBribe(Page):
     
     @staticmethod
     def vars_for_template(player: Player):
-        print(player.get_others_in_group()[0])
         return dict(
             other_player=player.get_others_in_group()[0]
         )
@@ -197,13 +196,6 @@ class BuyerOfferFixedSum(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.role == C.BUYER_ROLE and player.offer_bribe == 1
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        print(player.get_others_in_group()[0])
-        return dict(
-            other_player=player.get_others_in_group()[0]
-        )
 
 class BuyerOfferPercentage(Page):
     form_model = 'player'
@@ -223,6 +215,12 @@ class SellerAcceptNoBribe(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.role == C.SELLER_ROLE and player.group.get_player_by_role(C.BUYER_ROLE).offer_bribe == C.OFFER_NO_BRIBE
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+            other_player=player.get_others_in_group()[0]
+        )
     
 class SellerOfferFixedSum(Page):
     form_model = 'player'
